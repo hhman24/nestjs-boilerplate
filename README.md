@@ -34,7 +34,7 @@ Create a `.vscode/launch.json` filed contained debug config
 
 Modify port in package.json script command `start:debug`
 
-## Format project with Eslinet, Prettier and Husky
+## Format project with Eslinet, Prettier
 
 Install and restart IDE vscode with extension `EditorConfig` create new `.editorconfig` file
 
@@ -49,6 +49,40 @@ trim_trailing_whitespace = true
 ```
 
 Install prettier and eslint package to support orgainze source code: `prettier-plugin-organize-imports`, `eslint-plugin-unused-imports`
+
+## Setting up CommitLint, Husky and Lint-staged
+
+Install CommitLint and config-conventional
+
+```bash
+npm install --save-dev @commitlint/cli @commitlint/config-conventional @commitlint/types conventional-changelog-atom
+```
+
+Create `commitlint.config.ts` file in the root level
+
+```bash
+# Add commit message linting to commit-msg hook
+echo "npx --no -- commitlint --edit \$1" > .husky/commit-msg
+# Windows users should use ` to escape dollar signs
+echo "npx --no -- commitlint --edit `$1" > .husky/commit-msg
+```
+
+Install husky and init to Automatically lint your commit messages, code, and run tests upon committing or pushing.
+
+```bash
+npm install --save-dev husky
+```
+
+```bash
+npx husky init
+```
+
+Setting lint-staged
+
+```bash
+npm install --save-dev lint-staged # requires further setup
+```
+
 
 
 ## Compile and run the project
