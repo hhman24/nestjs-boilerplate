@@ -1,5 +1,5 @@
 import { ConfigKey, Environment } from "@common/enums";
-import { AppConfig } from "@common/interfaces";
+import { IAppConfig } from "@common/interfaces";
 import { Logger, RequestMethod, ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
@@ -9,7 +9,7 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
     const configService = app.get(ConfigService);
-    const appConfig = configService.get<AppConfig>(`${ConfigKey.APP}`);
+    const appConfig = configService.get<IAppConfig>(`${ConfigKey.APP}`);
 
     // clean up
     app.enableShutdownHooks();

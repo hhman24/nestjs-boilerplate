@@ -6,5 +6,6 @@ export const AppConfig = registerAs(ConfigKey.APP, () => ({
     port: Number(process.env.PORT),
     serviceName: process.env.SERVICE_NAME,
     apiPrefix: process.env.API_PREFIX,
-    origins: process.env.ALLOW_ORIGINS.split(",")
+    origins: process.env.ALLOW_ORIGINS.split(","),
+    logDir: process.env.LOG_DIR
 }));
