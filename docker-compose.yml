@@ -1,8 +1,8 @@
-name: "nestjs-boilerplage"
+name: "nestjs-boilerplate"
 services:
     service:
-        # image: registry.gitlab.com/vgameslab/hatch-element/hatchers-element-server:0.0.1
-        # container_name: service-dev
+        image: nestjs-boilerplate-sevice:latest
+        container_name: service-dev
         build:
             context: .
             target: development
@@ -25,6 +25,7 @@ services:
     # Redis service
     redis-dev:
         image: redis:alpine
+        container_name: nestjs-redis-dev
         ports:
             - 6379:6379
         env_file:

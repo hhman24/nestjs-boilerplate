@@ -2,10 +2,8 @@
 FROM node:22-alpine AS base
 
 # Create non-root user early for reuse
-RUN addgroup --system --gid 1001 node && \
-    adduser --system --uid 1001 node
-
-ENV NODE_ENV production
+# RUN addgroup --system --gid 1001 node && \
+#     adduser --system --uid 1001 node
 
 WORKDIR /usr/src/app
 
@@ -25,6 +23,8 @@ USER node
 ##### Build stage #####
 FROM base AS build
 
+ENV NODE_ENV=production
+
 COPY --chown=node:node package*.json ./
 COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node . .
@@ -38,6 +38,8 @@ USER node
 
 ##### Production stage #####
 FROM base AS production
+
+ENV NODE_ENV=production
 
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/dist ./dist
