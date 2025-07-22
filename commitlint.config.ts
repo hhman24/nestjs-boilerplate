@@ -3,6 +3,7 @@ import type { UserConfig } from "@commitlint/types";
 const Configuration: UserConfig = {
     extends: ["@commitlint/config-conventional"],
     parserPreset: "conventional-changelog-atom",
+    formatter: "@commitlint/format",
     rules: {
         "type-enum": [
             2,
@@ -18,7 +19,8 @@ const Configuration: UserConfig = {
                 "build", // Changes that affect the build system or external dependencies
                 "ci", // Changes to CI configuration files and scripts
                 "chore", // Other changes that don't modify src or test files
-                "revert" // Reverts a previous commit
+                "revert", // Reverts a previous commit
+                "release" // Release related changes
             ]
         ]
     }

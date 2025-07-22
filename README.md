@@ -58,6 +58,13 @@ npm install --save-dev @commitlint/cli @commitlint/config-conventional @commitli
 
 Create `commitlint.config.ts` file in the root level
 
+```json
+{
+    "*.{js,jsx,ts,tsx}": ["prettier --write", "eslint --fix", "eslint"],
+    "*.{json,md,yml}": ["prettier --write"]
+}
+```
+
 ```bash
 # Add commit message linting to commit-msg hook
 echo "npx --no -- commitlint --edit \$1" > .husky/commit-msg
