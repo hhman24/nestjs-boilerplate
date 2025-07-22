@@ -36,6 +36,21 @@ Modify port in package.json script command `start:debug`
 
 ## Format project with Eslinet, Prettier and Husky
 
+Install and restart IDE vscode with extension `EditorConfig` create new `.editorconfig` file
+
+```md
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+```
+
+Install prettier and eslint package to support orgainze source code: `prettier-plugin-organize-imports`, `eslint-plugin-unused-imports`
+
+
 ## Compile and run the project
 
 ```bash
