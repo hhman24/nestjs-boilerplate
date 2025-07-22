@@ -8,4 +8,6 @@ export interface AppConfig {
     nodeEnv: string;
     port: number;
     serviceName: string;
+    apiPrefix: string;
+    origins: string;
 }

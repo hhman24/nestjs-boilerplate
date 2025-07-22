@@ -4,5 +4,7 @@ import { registerAs } from "@nestjs/config";
 export const AppConfig = registerAs(ConfigKey.APP, () => ({
     nodeEnv: process.env.NODE_ENV,
     port: Number(process.env.PORT),
-    serviceName: process.env.SERVICE_NAME
+    serviceName: process.env.SERVICE_NAME,
+    apiPrefix: process.env.API_PREFIX,
+    origins: process.env.ALLOW_ORIGINS.split(",")
 }));
