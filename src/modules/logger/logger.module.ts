@@ -5,14 +5,18 @@ import { WinstonFactory } from "./winston.factory";
 
 @Module({})
 export class LoggerModule {
-    static forRootAsync(options: IDynamicLoggerOptions): DynamicModule {
+    static forRootAsync(options: IDynamicLoggerOptions & { isGlobal?: boolean }): DynamicModule {
         return {
             module: LoggerModule,
-            imports: [WinstonModule.forRootAsync({
-                useFactory: () => {
-                    return WinstonFactory.
-                }
-            })],
+            global: options.isGlobal ?? false,
+            imports: [
+                WinstonModule.forRootAsync({
+                    useFactory: () => {
+                        const winstonFactory = new WinstonFactory();
+                        return winstonFactory.createWinstonModuleOptions(options);
+                    }
+                })
+            ],
             exports: [WinstonModule]
         };
     }

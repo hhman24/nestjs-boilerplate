@@ -1,16 +1,11 @@
 import { WinstonModuleOptions } from "nest-winston";
 import winston, { format, transports } from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
-import { LoggerCustomTransport } from "./interfaces";
+import { IDynamicLoggerOptions } from "./interfaces";
 
 export class WinstonFactory {
-    createWinstonModuleOptions(
-        serviceName: string,
-        context: string,
-        logDir: string,
-        level: string,
-        customTransports: LoggerCustomTransport[] = []
-    ): WinstonModuleOptions | Promise<WinstonModuleOptions> {
+    createWinstonModuleOptions(options: IDynamicLoggerOptions): WinstonModuleOptions | Promise<WinstonModuleOptions> {
+        const { level, logDir, serviceName, customTransports } = options;
         winston.addColors({
             error: "red",
             warning: "yellow",
@@ -30,7 +25,7 @@ export class WinstonFactory {
                     dirname: logDir + "/info",
                     maxFiles: 30,
                     zippedArchive: true,
-                    format: this.formatLogJson()
+                    format: this.formatLogJson(serviceName)
                 }),
                 new DailyRotateFile({
                     filename: "%DATE%.log",
@@ -39,7 +34,7 @@ export class WinstonFactory {
                     dirname: logDir + "/error",
                     maxFiles: 30,
                     zippedArchive: true,
-                    format: this.formatLogJson()
+                    format: this.formatLogJson(serviceName)
                 }),
                 new DailyRotateFile({
                     filename: "%DATE%.log",
@@ -48,7 +43,7 @@ export class WinstonFactory {
                     dirname: logDir + "/warning",
                     maxFiles: 30,
                     zippedArchive: true,
-                    format: this.formatLogJson()
+                    format: this.formatLogJson(serviceName)
                 }),
                 ...customTransports
             ]
@@ -67,15 +62,21 @@ export class WinstonFactory {
             }),
             format.errors({ stack: true }),
             format.printf((info: any) => {
-                return `[${info.label}] [${info.timestamp}] [${info.level.toUpperCase()}] - ${info.message}`;
+                const timestamp = info.timestamp;
+                const level = info.level.toUpperCase();
+                const message = info.message;
+                const stack = info.stack || info.trace;
+                const context = info.context || info.label;
+
+                return `[${context}] [${timestamp}] [${level}] - ${message}${stack ? `\n${stack}` : ""}`;
             }),
             format.colorize({ all: true })
         );
     }
 
-    private formatLogJson() {
+    private formatLogJson(serviceName: string) {
         return format.combine(
-            format.label({ label: this.configService.get<string>("SERVICE_NAME") }),
+            format.label({ label: serviceName }),
             format.timestamp({
                 format: () => {
                     const now = new Date();
@@ -85,7 +86,7 @@ export class WinstonFactory {
             format.errors({ stack: true }),
             format.printf((info) => {
                 const logObj: Record<string, any> = {
-                    service: this.configService.get<string>("SERVICE_NAME"),
+                    service: serviceName,
                     timestamp: info.timestamp,
                     level: info.level,
                     message: info.message

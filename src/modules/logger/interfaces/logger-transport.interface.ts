@@ -1,7 +1,6 @@
 import { transports } from "winston";
 
 export interface IDynamicLoggerOptions {
-    env: string;
     serviceName: string;
     logDir: string;
     level: string;

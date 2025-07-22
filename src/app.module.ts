@@ -2,7 +2,6 @@ import { validationSchema } from "@common/validations";
 import { configurations } from "@config";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { LoggerModule } from './modules/logger/logger.module';
 
 @Module({
     imports: [
@@ -15,8 +14,7 @@ import { LoggerModule } from './modules/logger/logger.module';
             cache: true,
             envFilePath: process.env.NODE_ENV === "development" ? "env.local" : ".env",
             load: [...configurations]
-        }),
-        LoggerModule
+        })
     ]
 })
 export class AppModule {}
