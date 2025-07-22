@@ -20,7 +20,8 @@
     },
     "include": [
         "**/*.ts",
+        "jest.config.ts",
         "commitlint.config.ts" // Added line
     ],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "dist"]
 }
