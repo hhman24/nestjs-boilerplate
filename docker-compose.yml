@@ -7,9 +7,11 @@ services:
             context: .
             target: development
             dockerfile: ./Dockerfile
+        environment:
+            - NODE_ENV=development
         env_file:
-            - .env
-        command: npm run start:debug
+            - .env.local
+        command: npm run start:dev
         volumes:
             - .:/usr/src/app
             - /usr/src/app/node_modules
