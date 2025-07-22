@@ -24,9 +24,7 @@ Create a `.vscode/launch.json` filed contained debug config
     "name": "Attach",
     "port": 9233,
     "request": "attach",
-    "skipFiles": [
-        "<node_internals>/**"
-    ],
+    "skipFiles": ["<node_internals>/**"],
     "type": "node",
     "remoteRoot": "/app"
 }
@@ -77,13 +75,11 @@ npm install --save-dev husky
 npx husky init
 ```
 
-Setting lint-staged
+Setting lint-staged and update package.json script `"lint-staged": "lint-staged"`
 
 ```bash
 npm install --save-dev lint-staged # requires further setup
 ```
-
-
 
 ## Compile and run the project
 
