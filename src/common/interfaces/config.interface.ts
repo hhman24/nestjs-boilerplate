@@ -9,6 +9,7 @@ export interface IAppConfig {
     port: number;
     serviceName: string;
     apiPrefix: string;
-    origins: string;
+    origins: string[];
     logDir: string;
+    isProduction: boolean;
 }

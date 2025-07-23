@@ -1,11 +1,14 @@
 import { INestApplication } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
 export const setupSwagger = (app: INestApplication): void => {
+    const configService = app.get(ConfigService);
+
     const config = new DocumentBuilder()
         .setTitle("Nestjs boiplerplate API")
         .setDescription("Nestjs boiplerplate API description")
-        // .setVersion(env.API_VERSION)
+        .setVersion(configService.get("VERSION"))
         .addBearerAuth(
             {
                 type: "http",

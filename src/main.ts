@@ -1,5 +1,6 @@
 import { ConfigKey, Environment } from "@common/enums";
 import { IAppConfig } from "@common/interfaces";
+import { setupSwagger } from "@config";
 import { Logger, RequestMethod, ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
@@ -25,6 +26,8 @@ async function bootstrap() {
         credentials: appConfig.nodeEnv === Environment.PRODUCTION ? true : false,
         methods: ["GET", "POST", "DELETE", "PATCH", "PUT"]
     });
+
+    setupSwagger(app);
 
     // setup helmet and cookie parser
 
