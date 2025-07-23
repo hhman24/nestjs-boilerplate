@@ -1,4 +1,5 @@
 import { WinstonModuleOptions } from "nest-winston";
+import path from "path";
 import winston, { format, transports } from "winston";
 import DailyRotateFile from "winston-daily-rotate-file";
 import { IDynamicLoggerOptions } from "./interfaces";
@@ -6,6 +7,8 @@ import { IDynamicLoggerOptions } from "./interfaces";
 export class WinstonFactory {
     createWinstonModuleOptions(options: IDynamicLoggerOptions): WinstonModuleOptions {
         const { level, logDir, serviceName, customTransports = [] } = options;
+        const logPath = path.join(process.cwd(), logDir);
+
         winston.addColors({
             error: "red",
             warning: "yellow",
@@ -22,7 +25,7 @@ export class WinstonFactory {
                     filename: "%DATE%.log",
                     datePattern: "YYYY-MM-DD",
                     level: "info",
-                    dirname: logDir + "/info",
+                    dirname: logPath + "/info",
                     maxFiles: 30,
                     zippedArchive: true,
                     format: this.formatLogJson(serviceName)
@@ -31,7 +34,7 @@ export class WinstonFactory {
                     filename: "%DATE%.log",
                     datePattern: "YYYY-MM-DD",
                     level: "error",
-                    dirname: logDir + "/error",
+                    dirname: logPath + "/error",
                     maxFiles: 30,
                     zippedArchive: true,
                     format: this.formatLogJson(serviceName)
@@ -40,7 +43,7 @@ export class WinstonFactory {
                     filename: "%DATE%.log",
                     datePattern: "YYYY-MM-DD",
                     level: "warning",
-                    dirname: logDir + "/warning",
+                    dirname: logPath + "/warning",
                     maxFiles: 30,
                     zippedArchive: true,
                     format: this.formatLogJson(serviceName)

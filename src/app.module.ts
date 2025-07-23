@@ -1,8 +1,10 @@
+import { ValidationPipe } from "@common/pipes";
 import { validationSchema } from "@common/validations";
 import { configurations } from "@config";
 import { LoggerModule } from "@modules/logger";
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { APP_PIPE } from "@nestjs/core";
 
 @Module({
     imports: [
@@ -29,6 +31,13 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
             },
             inject: [ConfigService]
         })
+    ],
+
+    providers: [
+        {
+            provide: APP_PIPE,
+            useClass: ValidationPipe
+        }
     ]
 })
 export class AppModule {}

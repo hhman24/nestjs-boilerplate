@@ -1,6 +1,6 @@
 import { ConfigKey, Environment } from "@common/enums";
 import { IAppConfig } from "@common/interfaces";
-import { Logger, RequestMethod } from "@nestjs/common";
+import { Logger, RequestMethod, ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
@@ -18,7 +18,7 @@ async function bootstrap() {
         exclude: [{ path: "/health", method: RequestMethod.GET }]
     });
 
-    // app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
+    app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
 
     app.enableCors({
         origin: appConfig.origins,
