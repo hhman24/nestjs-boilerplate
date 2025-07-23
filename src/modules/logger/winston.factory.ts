@@ -4,8 +4,8 @@ import DailyRotateFile from "winston-daily-rotate-file";
 import { IDynamicLoggerOptions } from "./interfaces";
 
 export class WinstonFactory {
-    createWinstonModuleOptions(options: IDynamicLoggerOptions): WinstonModuleOptions | Promise<WinstonModuleOptions> {
-        const { level, logDir, serviceName, customTransports } = options;
+    createWinstonModuleOptions(options: IDynamicLoggerOptions): WinstonModuleOptions {
+        const { level, logDir, serviceName, customTransports = [] } = options;
         winston.addColors({
             error: "red",
             warning: "yellow",
@@ -53,22 +53,13 @@ export class WinstonFactory {
     private formatLogMessage(serviceName: string) {
         return format.combine(
             format.label({ label: serviceName }),
-            format.timestamp({
-                format: () => {
-                    const now = new Date();
-                    const vietnamTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Ho_Chi_Minh" }));
-                    return vietnamTime.toISOString().replace("T", " ").substring(0, 19); // Format as YYYY-MM-DD HH:mm:ss
-                }
-            }),
+            format.timestamp({ format: () => new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" }) }),
             format.errors({ stack: true }),
-            format.printf((info: any) => {
-                const timestamp = info.timestamp;
-                const level = info.level.toUpperCase();
-                const message = info.message;
-                const stack = info.stack || info.trace;
-                const context = info.context || info.label;
-
-                return `[${context}] [${timestamp}] [${level}] - ${message}${stack ? `\n${stack}` : ""}`;
+            format.printf(({ level, message, context, timestamp, stack, trace }) => {
+                const stackLog = stack || trace;
+                const pid = process.pid;
+                const contextLog = this.color("yellow", (context as string) || "undefined");
+                return `[${serviceName}] ${pid} - ${this.color("gray", timestamp as string)} ${level.toUpperCase().padEnd(7)} [${contextLog}] ${message}${stackLog ? `\n${stackLog}` : ""}`;
             }),
             format.colorize({ all: true })
         );
@@ -103,5 +94,20 @@ export class WinstonFactory {
                 return JSON.stringify(logObj);
             })
         );
+    }
+
+    private color(colorName: string, text: string): string {
+        const colors: Record<string, string> = {
+            gray: "\x1b[90m",
+            red: "\x1b[31m",
+            green: "\x1b[32m",
+            yellow: "\x1b[33m",
+            blue: "\x1b[34m",
+            magenta: "\x1b[35m",
+            cyan: "\x1b[36m",
+            reset: "\x1b[0m"
+        };
+
+        return `${colors[colorName] || ""}${text}${colors.reset}`;
     }
 }

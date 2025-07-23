@@ -3,26 +3,26 @@ import { WINSTON_MODULE_PROVIDER } from "nest-winston";
 import { Logger } from "winston";
 
 @Injectable()
-export class LoggerService implements NestLoggerService {
+export class WinstonLoggerService implements NestLoggerService {
     constructor(@Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger) {}
 
-    log(message: any, context?: string) {
+    log(message: any, context: string) {
         this.logger.info(message, { context });
     }
 
-    error(message: any, trace?: string, context?: string) {
+    error(message: any, context: string, trace?: string) {
         this.logger.error(message, { context, trace });
     }
 
-    warn(message: any, context?: string) {
+    warn(message: any, context: string) {
         this.logger.warning(message, { context });
     }
 
-    debug(message: any, context?: string) {
+    debug(message: any, context: string) {
         this.logger.debug(message, { context });
     }
 
-    verbose(message: any, context?: string) {
+    verbose(message: any, context: string) {
         this.logger.notice?.(message, { context });
     }
 }

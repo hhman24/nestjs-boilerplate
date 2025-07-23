@@ -1,7 +1,8 @@
 import { validationSchema } from "@common/validations";
 import { configurations } from "@config";
+import { LoggerModule } from "@modules/logger";
 import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 
 @Module({
     imports: [
@@ -14,6 +15,19 @@ import { ConfigModule } from "@nestjs/config";
             cache: true,
             envFilePath: process.env.NODE_ENV === "development" ? "env.local" : ".env",
             load: [...configurations]
+        }),
+        LoggerModule.forRootAsync({
+            engine: "winston",
+            isGlobal: true,
+            imports: [ConfigModule],
+            useFactory: (configService: ConfigService) => {
+                return {
+                    level: configService.get("LOG_LEVEL"),
+                    logDir: configService.get("LOG_DIR"),
+                    serviceName: configService.get("SERVICE_NAME")
+                };
+            },
+            inject: [ConfigService]
         })
     ]
 })
