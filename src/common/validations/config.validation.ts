@@ -6,6 +6,7 @@ export const validationSchema = Joi.object({
     SERVICE_NAME: Joi.string().required(),
     PORT: Joi.number().port().required(),
     API_PREFIX: Joi.string().default("api"),
+
     LOG_DIR: Joi.string().default("logs"),
     LOG_LEVEL: Joi.string().default("debug"),
 

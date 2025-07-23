@@ -18,6 +18,7 @@ export default class WinstonLogger implements ILoggerService {
         // Setting log levels for winston
         const levels: any = {};
         let cont = 0;
+
         Object.values(LogLevel).forEach((level) => {
             levels[level] = cont;
             cont++;

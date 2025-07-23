@@ -27,8 +27,8 @@ export default class LoggerService implements ILoggerService {
 
         // Set the organization, context and app from the environment variables
         this.organization = this.configService.get<string>("ORGANIZATION");
-        this.context = this.configService.get<string>("CONTEXT");
-        this.app = this.configService.get<string>("APP");
+        this.context = this.configService.get<string>("NODE_ENV");
+        this.app = this.configService.get<string>("SERVICE_NAME");
     }
 
     private getLogData(data?: LogData): LogData {
