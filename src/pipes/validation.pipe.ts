@@ -1,4 +1,6 @@
-import { ArgumentMetadata, HttpException, HttpStatus, Injectable, PipeTransform } from "@nestjs/common";
+import { MessageCodeEnum } from "@enums";
+import { ValidationException } from "@exceptions";
+import { ArgumentMetadata, Injectable, PipeTransform } from "@nestjs/common";
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 
@@ -13,7 +15,7 @@ export class ValidationPipe implements PipeTransform<any> {
         const errors = await validate(object);
 
         if (errors.length > 0) {
-            throw new HttpException(`🥺 ${this.formatErrors(errors)}`, HttpStatus.BAD_REQUEST);
+            throw new ValidationException({ message: `${this.formatErrors(errors)}`, code: MessageCodeEnum.BAD_REQUEST });
         }
 
         return value;

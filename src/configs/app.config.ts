@@ -1,4 +1,4 @@
-import { IAppConfig } from "@common/interfaces";
+import { IAppConfig } from "@common";
 import { ConfigKeyEnum, EnvironmentEnum } from "@enums";
 import { registerAs } from "@nestjs/config";
 

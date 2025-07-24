@@ -1,8 +1,10 @@
+import { AppErrorType } from "@common";
+import { MessageCodeEnum } from "@enums";
 import { HttpException, HttpStatus } from "@nestjs/common";
 
 export class AppException extends HttpException {
-    constructor(message: string, responseCode: number, error: unknown, status: HttpStatus) {
-        super({ message, responseCode, error }, status);
+    constructor({ message, code = MessageCodeEnum.INTERNAL_SERVER_ERROR }: AppErrorType, status?: HttpStatus) {
+        super({ message, code }, status);
     }
 }
 

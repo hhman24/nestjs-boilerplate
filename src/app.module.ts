@@ -4,7 +4,6 @@ import { ApplicationThrottlerGuard } from "@guards";
 import { RequestTimeoutInterceptor, TransformInterceptor } from "@interceptor";
 import { ContextStoraggeModule } from "@modules/context-storage/context-storage.module";
 import { HealthModule } from "@modules/health/health.module";
-import { ILoggerService, LOGGER_KEY } from "@modules/logger/domain";
 import { LoggerModule } from "@modules/logger/infrastructure/nestjs/logger.module";
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
@@ -51,8 +50,7 @@ import { validationSchema } from "@utils";
         },
         {
             provide: APP_INTERCEPTOR,
-            inject: [ConfigService, LOGGER_KEY],
-            useFactory: (configService: ConfigService, logger: ILoggerService) => new RequestTimeoutInterceptor(configService, logger)
+            useClass: RequestTimeoutInterceptor
         },
         {
             provide: APP_GUARD,

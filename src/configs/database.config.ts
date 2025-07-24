@@ -1,4 +1,4 @@
-import { IDatabaseConfig } from "@common/interfaces";
+import { IDatabaseConfig } from "@common";
 import { ConfigKeyEnum } from "@enums";
 import { registerAs } from "@nestjs/config";
 

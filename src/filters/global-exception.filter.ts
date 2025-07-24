@@ -1,8 +1,10 @@
-import { ResponseType } from "@common";
-import { ResponseCodeEnum } from "@enums";
+import { AppErrorType, ResponseType } from "@common";
+import { MessageCodeEnum } from "@enums";
+import { RequestTimeOutException, ValidationException } from "@exceptions";
 import { ILoggerService, LOGGER_KEY } from "@modules/logger/domain";
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Inject } from "@nestjs/common";
+import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus, Inject } from "@nestjs/common";
 import { HttpAdapterHost } from "@nestjs/core";
+import { ThrottlerException } from "@nestjs/throttler";
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -17,42 +19,103 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         if (ctxType === "http") {
             this.handleHttpContext(exception, host);
         }
+
+        return;
     }
 
     private handleHttpContext(exception: any, host: ArgumentsHost) {
         const { httpAdapter } = this.httpAdapterHost;
         const ctx = host.switchToHttp();
-        const genericMessage = "An unexpected error occurred. Please try again later.";
-        const isHttpException = exception instanceof HttpException;
+        const request = ctx.getRequest();
+        const path = httpAdapter.getRequestUrl(request);
+        const method = httpAdapter.getRequestMethod(request);
 
-        const httpStatus = exception.getStatus();
-        const message = isHttpException ? exception.getResponse() : exception.message;
+        let httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 
-        // Normalize message extraction
-        const extractedMessage = this.extractMessage(exception, message);
-        const messageResponse = httpStatus === HttpStatus.INTERNAL_SERVER_ERROR ? genericMessage : extractedMessage;
-
-        if (!isHttpException) {
-            const path = httpAdapter.getRequestUrl(ctx.getRequest());
-            const method = httpAdapter.getRequestMethod(ctx.getRequest());
-
-            // Unexpected error
-            this.logger.fatal(`${message} - [${method} ${path}]`, {
-                context: "unexpected",
-                error: exception.cause?.error ?? new Error(message),
-                sourceClass: GlobalExceptionFilter.name
-            });
-        }
-
-        // Standardized error response
-        const responseBody: ResponseType = {
-            code: exception.cause?.code ?? ResponseCodeEnum.INTERNAL_SERVER_ERROR,
-            data: null,
-            message: messageResponse
+        let responseBody: ResponseType = {
+            code: MessageCodeEnum.INTERNAL_SERVER_ERROR,
+            message: "An unexpected error occurred. Please try again later.",
+            data: null
         };
+
+        if (exception instanceof ValidationException) {
+            httpStatus = exception.getStatus();
+            responseBody = this.handleValidationException(exception, path, method);
+        } else if (exception instanceof RequestTimeOutException) {
+            httpStatus = exception.getStatus();
+            responseBody = this.handleRequestTimeOutException(exception, path, method);
+        } else if (exception instanceof ThrottlerException) {
+            httpStatus = exception.getStatus();
+            responseBody = this.handleThrottlerException(exception);
+        } else {
+            responseBody = this.handleUnexpectedError(exception, path, method);
+        }
 
         // Respond to client
         httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
+    }
+
+    private handleRequestTimeOutException(exception: RequestTimeOutException, path: string, method: string): ResponseType {
+        const errorData = exception.getResponse() as AppErrorType;
+
+        this.logger.fatal(`${errorData.message} - [${method} ${path}]`, {
+            sourceClass: GlobalExceptionFilter.name,
+            error: errorData?.error ?? undefined,
+            props: { method, path }
+        });
+
+        // alert prometheus
+
+        return {
+            code: errorData.code,
+            data: null,
+            message: this.extractMessage(exception, errorData.message)
+        };
+    }
+
+    private handleThrottlerException(exception: ThrottlerException): ResponseType {
+        const errorData = exception.getResponse();
+
+        this.logger.warn(`${errorData}`, {
+            sourceClass: GlobalExceptionFilter.name
+        });
+
+        return {
+            code: MessageCodeEnum.T0O_MANY_REQUESTS,
+            data: null,
+            message: "Too many request"
+        };
+    }
+
+    private handleValidationException(exception: ValidationException, path: string, method: string): ResponseType {
+        const errorData = exception.getResponse() as AppErrorType;
+
+        this.logger.warn(`${errorData.message} - [${method} ${path}]`, {
+            sourceClass: GlobalExceptionFilter.name,
+            error: errorData?.error ?? undefined,
+            props: { method, path }
+        });
+
+        return {
+            code: errorData.code,
+            data: null,
+            message: this.extractMessage(exception, errorData.message)
+        };
+    }
+
+    private handleUnexpectedError(exception: any, path: string, method: string) {
+        // Normalize message extraction
+        this.logger.error(`${exception?.message} - [${method} ${path}]`, {
+            error: exception,
+            sourceClass: GlobalExceptionFilter.name
+        });
+
+        // Standardized error response
+        return {
+            code: MessageCodeEnum.INTERNAL_SERVER_ERROR,
+            data: null,
+            message: exception?.message ?? "An unexpected error occurred"
+        };
     }
 
     private extractMessage(exception: any, response: any): string {

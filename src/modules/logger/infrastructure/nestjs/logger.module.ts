@@ -1,5 +1,5 @@
-import { ConfigKeyEnum, EnvironmentEnum } from "@common/enums";
-import { IAppConfig } from "@common/interfaces";
+import { IAppConfig } from "@common";
+import { ConfigKeyEnum, EnvironmentEnum } from "@enums";
 import LoggerService from "@modules/logger/application/logger.service";
 import ILoggerService, { LOGGER_BASE_KEY, LOGGER_KEY } from "@modules/logger/domain/logger-service.interface";
 import { Global, Inject, MiddlewareConsumer, Module, NestModule } from "@nestjs/common";

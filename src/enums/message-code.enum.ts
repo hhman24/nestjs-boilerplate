@@ -1,5 +1,6 @@
-export enum ResponseCodeEnum {
+export enum MessageCodeEnum {
     SUCCESS = 2000,
+    BAD_REQUEST = 4000,
     UNAUTHORIZED = 4001,
     FORBIDDEN = 4003,
     PAYMENT_REQUIRED = 4002,

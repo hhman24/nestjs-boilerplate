@@ -1,8 +1,8 @@
-import { ResponseCodeEnum } from "@enums";
+import { MessageCodeEnum } from "@enums";
 import { ApiResponseProperty } from "@nestjs/swagger";
 
 export class ResponseTypeDto<T = any> {
-    @ApiResponseProperty({ example: ResponseCodeEnum.SUCCESS })
+    @ApiResponseProperty({ example: MessageCodeEnum.SUCCESS })
     code?: number;
 
     @ApiResponseProperty({ example: "sucess" })

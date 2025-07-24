@@ -1,2 +1,2 @@
 export * from "./config.enum";
-export * from "./response-code.enum";
+export * from "./message-code.enum";

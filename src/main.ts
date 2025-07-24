@@ -1,6 +1,6 @@
-import { ConfigKeyEnum } from "@common/enums";
-import { IAppConfig } from "@common/interfaces";
-import { setupSwagger } from "@config";
+import { IAppConfig } from "@common";
+import { setupSwagger } from "@configs";
+import { ConfigKeyEnum } from "@enums";
 import { Logger, RequestMethod, ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";

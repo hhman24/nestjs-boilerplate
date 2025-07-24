@@ -1,5 +1,5 @@
 import { ResponseType } from "@common";
-import { ResponseCodeEnum } from "@enums";
+import { MessageCodeEnum } from "@enums";
 import { CallHandler, ExecutionContext, HttpStatus, Injectable, NestInterceptor } from "@nestjs/common";
 import { Observable, map } from "rxjs";
 
@@ -17,7 +17,7 @@ export class TransformInterceptor<T> implements NestInterceptor<T, ResponseType<
             map((data) => {
                 const result = {
                     message: data?.message ?? null,
-                    code: data?.code ?? ResponseCodeEnum.SUCCESS,
+                    code: data?.code ?? MessageCodeEnum.SUCCESS,
                     data: data?.data ?? null
                 };
 

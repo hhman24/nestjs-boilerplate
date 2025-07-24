@@ -1,7 +1,7 @@
-import { PageMetaType } from "@common/types";
 import { ApiPropertyOptional, ApiResponseProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsInt, IsOptional, Max, Min } from "class-validator";
+import { PageMetaType } from "../types";
 
 export class PageOptionsRequestDto {
     @ApiPropertyOptional({ minimum: 1, default: 1 })
