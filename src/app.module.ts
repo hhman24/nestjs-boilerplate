@@ -1,3 +1,4 @@
+import { GlobalExceptionFilter } from "@common/exceptions/global-exception.filter";
 import { ValidationPipe } from "@common/pipes";
 import { validationSchema } from "@common/validations";
 import { configurations } from "@config";
@@ -6,7 +7,7 @@ import { HealthModule } from "@modules/health/health.module";
 import { LoggerModule } from "@modules/logger/infrastructure/nestjs/logger.module";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { APP_PIPE } from "@nestjs/core";
+import { APP_FILTER, APP_PIPE } from "@nestjs/core";
 
 @Module({
     imports: [
@@ -29,6 +30,10 @@ import { APP_PIPE } from "@nestjs/core";
         {
             provide: APP_PIPE,
             useClass: ValidationPipe
+        },
+        {
+            provide: APP_FILTER,
+            useClass: GlobalExceptionFilter
         }
     ]
 })

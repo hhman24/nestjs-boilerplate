@@ -1,4 +1,4 @@
-import { ConfigKey, Environment } from "@common/enums";
+import { ConfigKeyEnum } from "@common/enums";
 import { IAppConfig } from "@common/interfaces";
 import { setupSwagger } from "@config";
 import { Logger, RequestMethod, ValidationPipe } from "@nestjs/common";
@@ -10,7 +10,7 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
     const configService = app.get(ConfigService);
-    const appConfig = configService.get<IAppConfig>(`${ConfigKey.APP}`);
+    const appConfig = configService.get<IAppConfig>(`${ConfigKeyEnum.APP}`);
 
     // clean up
     app.enableShutdownHooks();
@@ -23,11 +23,11 @@ async function bootstrap() {
 
     app.enableCors({
         origin: appConfig.origins,
-        credentials: appConfig.nodeEnv === Environment.PRODUCTION ? true : false,
+        credentials: appConfig.isProduction ? true : false,
         methods: ["GET", "POST", "DELETE", "PATCH", "PUT"]
     });
 
-    setupSwagger(app);
+    if (!appConfig.isProduction) setupSwagger(app);
 
     // setup helmet and cookie parser
 

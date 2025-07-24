@@ -1,4 +1,4 @@
-import { ConfigKey, Environment } from "@common/enums";
+import { ConfigKeyEnum, EnvironmentEnum } from "@common/enums";
 import { IAppConfig } from "@common/interfaces";
 import LoggerService from "@modules/logger/application/logger.service";
 import ILoggerService, { LOGGER_BASE_KEY, LOGGER_KEY } from "@modules/logger/domain/logger-service.interface";
@@ -36,7 +36,7 @@ import LoggerServiceAdapter from "./logger-sevice.adapter";
                 transports.push(FileTransport.create(configService.get("LOG_DIR")));
 
                 // config webhook
-                if (configService.get<IAppConfig>(`${ConfigKey.APP}`).isProduction) {
+                if (configService.get<IAppConfig>(`${ConfigKeyEnum.APP}`).isProduction) {
                     // if (configService.slackWebhookUrl) {
                     //     transports.push(SlackTransport.create(configService.slackWebhookUrl));
                     // }
@@ -57,7 +57,7 @@ export class LoggerModule implements NestModule {
     public configure(consumer: MiddlewareConsumer): void {
         consumer
             .apply(
-                morgan(this.configService.get("NODE_ENV") === Environment.PRODUCTION ? "combined" : "dev", {
+                morgan(this.configService.get("NODE_ENV") === EnvironmentEnum.PRODUCTION ? "combined" : "dev", {
                     stream: {
                         write: (message: string) => {
                             this.logger.debug(message, {

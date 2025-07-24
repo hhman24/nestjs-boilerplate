@@ -1,9 +1,9 @@
-import { ConfigKey, Environment } from "@common/enums";
+import { ConfigKeyEnum, EnvironmentEnum } from "@common/enums";
 import { IAppConfig } from "@common/interfaces";
 import { registerAs } from "@nestjs/config";
 
 export const AppConfig = registerAs(
-    ConfigKey.APP,
+    ConfigKeyEnum.APP,
     (): IAppConfig => ({
         nodeEnv: process.env.NODE_ENV,
         port: Number(process.env.PORT),
@@ -11,6 +11,6 @@ export const AppConfig = registerAs(
         apiPrefix: process.env.API_PREFIX,
         origins: process.env.ALLOW_ORIGINS.split(","),
         logDir: process.env.LOG_DIR,
-        isProduction: process.env.NODE_ENV === Environment.PRODUCTION
+        isProduction: process.env.NODE_ENV === EnvironmentEnum.PRODUCTION
     })
 );
