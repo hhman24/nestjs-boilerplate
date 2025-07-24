@@ -1,4 +1,4 @@
-export enum ReponseCodeEnum {
+export enum ResponseCodeEnum {
     SUCCESS = 2000,
     UNAUTHORIZED = 4001,
     FORBIDDEN = 4003,

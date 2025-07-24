@@ -11,6 +11,7 @@ export const AppConfig = registerAs(
         apiPrefix: process.env.API_PREFIX,
         origins: process.env.ALLOW_ORIGINS.split(","),
         logDir: process.env.LOG_DIR,
-        isProduction: process.env.NODE_ENV === EnvironmentEnum.PRODUCTION
+        isProduction: process.env.NODE_ENV === EnvironmentEnum.PRODUCTION,
+        apiTimeout: Number(process.env.API_TIMEOUT)
     })
 );

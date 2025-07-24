@@ -6,6 +6,7 @@ export const validationSchema = Joi.object({
     SERVICE_NAME: Joi.string().required(),
     PORT: Joi.number().port().required(),
     API_PREFIX: Joi.string().default("api"),
+    API_TIMEOUT: Joi.number().required().options({ convert: true }),
 
     LOG_DIR: Joi.string().default("logs"),
     LOG_LEVEL: Joi.string().default("debug"),
@@ -13,7 +14,7 @@ export const validationSchema = Joi.object({
     ALLOW_ORIGINS: Joi.string().required(),
 
     DATABASE_HOST: Joi.string().required(),
-    DATABASE_PORT: Joi.number().default(5432),
+    DATABASE_PORT: Joi.number().options({ convert: true }).default(5432),
     DATABASE_USER: Joi.string().required(),
     DATABASE_PASSWORD: Joi.string().required()
 });

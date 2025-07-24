@@ -12,4 +12,5 @@ export interface IAppConfig {
     origins: string[];
     logDir: string;
     isProduction: boolean;
+    apiTimeout: number;
 }

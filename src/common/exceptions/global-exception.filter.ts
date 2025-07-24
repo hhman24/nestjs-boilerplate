@@ -1,4 +1,4 @@
-import { ReponseCodeEnum } from "@common/enums";
+import { ResponseCodeEnum } from "@common/enums";
 import { ResponseType } from "@common/types";
 import { ILoggerService, LOGGER_KEY } from "@modules/logger/domain";
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Inject } from "@nestjs/common";
@@ -46,7 +46,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
         // Standardized error response
         const responseBody: ResponseType = {
-            code: exception.cause?.code ?? ReponseCodeEnum.INTERNAL_SERVER_ERROR,
+            code: exception.cause?.code ?? ResponseCodeEnum.INTERNAL_SERVER_ERROR,
             data: null,
             message: messageResponse
         };
