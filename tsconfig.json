@@ -20,9 +20,17 @@
         "allowSyntheticDefaultImports": true,
         "paths": {
             "@utils": ["src/utils"],
-            "@common/*": ["src/common/*"],
+            "@enums": ["src/enums"],
+            "@exceptions": ["src/exceptions"],
+            "@filters": ["src/filters"],
+            "@guards": ["src/guards"],
+            "@interceptor": ["src/interceptors"],
+            "@middlewares": ["src/middlewares"],
+            "@pipes": ["src/pipes"],
+            "@validations": ["src/validations"],
+            "@common": ["src/common"],
             "@modules/*": ["src/modules/*"],
-            "@config": ["src/config"]
+            "@configs": ["src/configs"]
         }
     },
     "include": [

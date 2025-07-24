@@ -4,8 +4,7 @@ import { Request, Response } from "express";
 
 @Injectable()
 export class RequestLoggingMiddleware implements NestMiddleware {
-    @Inject(LOGGER_KEY)
-    private readonly logger: ILoggerService;
+    constructor(@Inject(LOGGER_KEY) private readonly logger: ILoggerService) {}
 
     use(request: Request, response: Response, next: () => void) {
         const { method, originalUrl } = request;

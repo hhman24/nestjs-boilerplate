@@ -1,5 +1,5 @@
-import { ResponseCodeEnum } from "@common/enums";
-import { ResponseType } from "@common/types";
+import { ResponseType } from "@common";
+import { ResponseCodeEnum } from "@enums";
 import { CallHandler, ExecutionContext, HttpStatus, Injectable, NestInterceptor } from "@nestjs/common";
 import { Observable, map } from "rxjs";
 

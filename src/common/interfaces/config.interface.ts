@@ -13,4 +13,6 @@ export interface IAppConfig {
     logDir: string;
     isProduction: boolean;
     apiTimeout: number;
+    throttleTTL: number;
+    throttleLimit: number;
 }

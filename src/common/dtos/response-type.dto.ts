@@ -1,4 +1,4 @@
-import { ResponseCodeEnum } from "@common/enums";
+import { ResponseCodeEnum } from "@enums";
 import { ApiResponseProperty } from "@nestjs/swagger";
 
 export class ResponseTypeDto<T = any> {

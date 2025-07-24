@@ -1,5 +1,5 @@
-import { ConfigKeyEnum, EnvironmentEnum } from "@common/enums";
 import { IAppConfig } from "@common/interfaces";
+import { ConfigKeyEnum, EnvironmentEnum } from "@enums";
 import { registerAs } from "@nestjs/config";
 
 export const AppConfig = registerAs(
@@ -12,6 +12,8 @@ export const AppConfig = registerAs(
         origins: process.env.ALLOW_ORIGINS.split(","),
         logDir: process.env.LOG_DIR,
         isProduction: process.env.NODE_ENV === EnvironmentEnum.PRODUCTION,
-        apiTimeout: Number(process.env.API_TIMEOUT)
+        apiTimeout: Number(process.env.API_TIMEOUT),
+        throttleTTL: Number(process.env.THROTTLE_TTL),
+        throttleLimit: Number(process.env.THROTTLE_LIMIT)
     })
 );

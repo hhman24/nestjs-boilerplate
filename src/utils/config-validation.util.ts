@@ -1,4 +1,4 @@
-import { EnvironmentEnum } from "@common/enums";
+import { EnvironmentEnum } from "@enums";
 import Joi from "joi";
 
 export const validationSchema = Joi.object({
@@ -7,6 +7,9 @@ export const validationSchema = Joi.object({
     PORT: Joi.number().port().required(),
     API_PREFIX: Joi.string().default("api"),
     API_TIMEOUT: Joi.number().required().options({ convert: true }),
+
+    THROTTLE_TTL: Joi.number().required().options({ convert: true }),
+    THROTTLE_LIMIT: Joi.number().required().options({ convert: true }),
 
     LOG_DIR: Joi.string().default("logs"),
     LOG_LEVEL: Joi.string().default("debug"),

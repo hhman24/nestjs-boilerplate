@@ -1,5 +1,5 @@
-import { ConfigKeyEnum, ResponseCodeEnum } from "@common/enums";
-import { IAppConfig } from "@common/interfaces";
+import { IAppConfig } from "@common";
+import { ConfigKeyEnum, ResponseCodeEnum } from "@enums";
 import { ILoggerService, LOGGER_KEY } from "@modules/logger/domain";
 import { CallHandler, ExecutionContext, HttpException, HttpStatus, Inject, Injectable, NestInterceptor } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";

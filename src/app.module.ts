@@ -1,14 +1,17 @@
-import { GlobalExceptionFilter } from "@common/exceptions/global-exception.filter";
-import { TransformInterceptor } from "@common/interceptors";
-import { ValidationPipe } from "@common/pipes";
-import { validationSchema } from "@common/validations";
-import { configurations } from "@config";
+import { configurations } from "@configs";
+import { GlobalExceptionFilter } from "@filters";
+import { ApplicationThrottlerGuard } from "@guards";
+import { RequestTimeoutInterceptor, TransformInterceptor } from "@interceptor";
 import { ContextStoraggeModule } from "@modules/context-storage/context-storage.module";
 import { HealthModule } from "@modules/health/health.module";
+import { ILoggerService, LOGGER_KEY } from "@modules/logger/domain";
 import { LoggerModule } from "@modules/logger/infrastructure/nestjs/logger.module";
 import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
+import { ThrottlerModule } from "@nestjs/throttler";
+import { ValidationPipe } from "@pipes";
+import { validationSchema } from "@utils";
 
 @Module({
     imports: [
@@ -24,6 +27,12 @@ import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
         }),
         LoggerModule,
         ContextStoraggeModule,
+        ThrottlerModule.forRootAsync({
+            imports: [ConfigModule],
+            inject: [ConfigService],
+            useFactory: (configService: ConfigService) => [{ ttl: configService.get("THROTTLE_TTL", 60000), limit: configService.get("THROTTLE_LIMIT", 10) }]
+        }),
+
         HealthModule
     ],
 
@@ -39,6 +48,15 @@ import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
         {
             provide: APP_INTERCEPTOR,
             useClass: TransformInterceptor
+        },
+        {
+            provide: APP_INTERCEPTOR,
+            inject: [ConfigService, LOGGER_KEY],
+            useFactory: (configService: ConfigService, logger: ILoggerService) => new RequestTimeoutInterceptor(configService, logger)
+        },
+        {
+            provide: APP_GUARD,
+            useClass: ApplicationThrottlerGuard
         }
     ]
 })

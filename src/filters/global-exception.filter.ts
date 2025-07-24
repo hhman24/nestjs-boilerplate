@@ -1,5 +1,5 @@
-import { ResponseCodeEnum } from "@common/enums";
-import { ResponseType } from "@common/types";
+import { ResponseType } from "@common";
+import { ResponseCodeEnum } from "@enums";
 import { ILoggerService, LOGGER_KEY } from "@modules/logger/domain";
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, Inject } from "@nestjs/common";
 import { HttpAdapterHost } from "@nestjs/core";
