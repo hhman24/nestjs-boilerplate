@@ -3,3 +3,5 @@ export type ResponseType<T = any> = {
     message?: string;
     data?: T;
 };
+
+export type FindAllResponseType<T> = { count: number; items: T[] };

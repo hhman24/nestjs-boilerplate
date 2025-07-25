@@ -1,6 +1,7 @@
 export enum ConfigKeyEnum {
     APP = "app",
-    DB = "db"
+    DB = "db",
+    MY_SQL = "my_sql"
 }
 
 export enum EnvironmentEnum {

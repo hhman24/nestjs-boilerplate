@@ -1,4 +1,4 @@
-# DDD architecture
+# Logger module DDD architecture
 
 The Clean Architecture + DDD breakdown for implementing a Logger Module in NestJS
 
