@@ -2,7 +2,7 @@ import { AppErrorType, ResponseType } from "@common";
 import { MessageCodeEnum } from "@enums";
 import { RequestTimeOutException, ValidationException } from "@exceptions";
 import { ILoggerService, LOGGER_KEY } from "@modules/logger/domain";
-import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus, Inject } from "@nestjs/common";
+import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus, Inject, NotFoundException } from "@nestjs/common";
 import { HttpAdapterHost } from "@nestjs/core";
 import { ThrottlerException } from "@nestjs/throttler";
 
@@ -44,6 +44,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         } else if (exception instanceof RequestTimeOutException) {
             httpStatus = exception.getStatus();
             responseBody = this.handleRequestTimeOutException(exception, path, method);
+        } else if (exception instanceof NotFoundException) {
+            httpStatus = exception.getStatus();
+            responseBody = this.handleNotFoundException(exception, path, method);
         } else if (exception instanceof ThrottlerException) {
             httpStatus = exception.getStatus();
             responseBody = this.handleThrottlerException(exception);
@@ -53,6 +56,23 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
         // Respond to client
         httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
+    }
+
+    private handleNotFoundException(exception: RequestTimeOutException, path: string, method: string): ResponseType {
+        const errorData = exception.getResponse() as AppErrorType;
+
+        this.logger.warn(`${errorData.message}`, {
+            sourceClass: GlobalExceptionFilter.name,
+            props: { method, path }
+        });
+
+        // alert prometheus
+
+        return {
+            code: MessageCodeEnum.NOT_FOUND,
+            data: null,
+            message: this.extractMessage(exception, errorData.message)
+        };
     }
 
     private handleRequestTimeOutException(exception: RequestTimeOutException, path: string, method: string): ResponseType {

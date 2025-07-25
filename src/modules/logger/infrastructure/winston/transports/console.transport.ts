@@ -19,14 +19,28 @@ export default class ConsoleTransport {
                     const logData: any = log.data;
                     const color = this.mapLogLevelColor(log.level as LogLevel);
                     const prefix = `${logData.label ? `[${logData.label}]` : ""}`;
-                    return `${this.colorize(color, prefix + "  -")} ${log.timestamp}    ${
-                        logData.correlationId ? `(${this.colorize(LogColors.cyan, logData.correlationId)})` : ""
-                    } ${this.colorize(color, log.level.toUpperCase())} ${logData.sourceClass ? `${this.colorize(LogColors.cyan, `[${logData.sourceClass}]`)}` : ""} ${this.colorize(
-                        color,
-                        log.message + " - " + (logData.error ? logData.error : "")
-                    )}${logData.durationMs !== undefined ? this.colorize(color, " +" + logData.durationMs + "ms") : ""}${
-                        logData.stack ? this.colorize(color, `  - ${logData.stack}`) : ""
-                    }${logData.props ? `\n  - Props: ${JSON.stringify(logData.props, null, 4)}` : ""}`;
+
+                    const label = `${this.colorize(color, prefix + ` ${process.pid}` + "  -")} ${log.timestamp}`;
+                    const correlationId = logData.correlationId ? ` (${this.colorize(LogColors.cyan, logData.correlationId)})\t` : "";
+                    const logLevel = ` ${this.colorize(color, log.level.toUpperCase().padStart(5))} `;
+                    const sourceClass = logData.sourceClass ? `${this.colorize(LogColors.cyan, `[${logData.sourceClass}]`)} ` : "";
+                    const message = this.colorize(color, `${log.message}`);
+                    const error = logData.error ? logData.error : "";
+                    const duration = logData.durationMs !== undefined ? this.colorize(color, " +" + logData.durationMs + "ms") : "";
+                    const stack = logData.stack ? this.colorize(color, `${logData.stack}`) : "";
+                    const props = logData.props ? `\nProps: ${JSON.stringify(logData.props, null, 4)}` : "";
+
+                    return (
+                        label +
+                        correlationId +
+                        logLevel +
+                        sourceClass +
+                        message +
+                        `${duration ? duration : ""}` +
+                        `${error ? "\n" + error : ""}` +
+                        `${stack ? "\n" + stack : ""}` +
+                        props
+                    );
                 })
             )
         });
