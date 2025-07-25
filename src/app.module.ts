@@ -1,7 +1,7 @@
 import { configurations } from "@configs";
 import { GlobalExceptionFilter } from "@filters";
 import { ApplicationThrottlerGuard } from "@guards";
-import { RequestTimeoutInterceptor, TransformInterceptor } from "@interceptor";
+import { HttpLoggingInterceptor, RequestTimeoutInterceptor, TransformInterceptor } from "@interceptor";
 import { ContextStoraggeModule } from "@modules/context-storage/context-storage.module";
 import { HealthModule } from "@modules/health/health.module";
 import { LoggerModule } from "@modules/logger/infrastructure/nestjs/logger.module";
@@ -43,6 +43,10 @@ import { validationSchema } from "@utils";
         {
             provide: APP_FILTER,
             useClass: GlobalExceptionFilter
+        },
+        {
+            provide: APP_INTERCEPTOR,
+            useClass: HttpLoggingInterceptor
         },
         {
             provide: APP_INTERCEPTOR,
