@@ -34,7 +34,7 @@
         }
     },
     "include": [
-        "**/*.ts",
+        "src/**/*.ts",
         "jest.config.ts",
         "commitlint.config.ts" // Added line
     ],
