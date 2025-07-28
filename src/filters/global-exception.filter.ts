@@ -1,4 +1,4 @@
-import { IAppError, ResponseType } from "@common";
+import { IAppError, IResponseType } from "@common";
 import { MessageCodeEnum } from "@enums";
 import { RequestTimeOutException, ValidationException } from "@exceptions";
 import { ILoggerService, LOGGER_KEY } from "@modules/logger/domain";
@@ -33,7 +33,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
         let httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 
-        let responseBody: ResponseType = {
+        let responseBody: IResponseType = {
             code: MessageCodeEnum.INTERNAL_SERVER_ERROR,
             message: "An unexpected error occurred. Please try again later.",
             data: null
@@ -62,7 +62,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
     }
 
-    private handleNotFoundException(exception: RequestTimeOutException, path: string, method: string): ResponseType {
+    private handleNotFoundException(exception: RequestTimeOutException, path: string, method: string): IResponseType {
         const errorData = exception.getResponse() as IAppError;
 
         this.logger.warn(`${errorData.message}`, {
@@ -79,7 +79,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         };
     }
 
-    private handleRequestTimeOutException(exception: RequestTimeOutException, path: string, method: string): ResponseType {
+    private handleRequestTimeOutException(exception: RequestTimeOutException, path: string, method: string): IResponseType {
         const errorData = exception.getResponse() as IAppError;
 
         this.logger.fatal(`${errorData.message} - [${method} ${path}]`, {
@@ -97,7 +97,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         };
     }
 
-    private handleThrottlerException(exception: ThrottlerException): ResponseType {
+    private handleThrottlerException(exception: ThrottlerException): IResponseType {
         const errorData = exception.getResponse();
 
         this.logger.warn(`${errorData}`, {
@@ -111,7 +111,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         };
     }
 
-    private handleValidationException(exception: ValidationException, path: string, method: string): ResponseType {
+    private handleValidationException(exception: ValidationException, path: string, method: string): IResponseType {
         const errorData = exception.getResponse() as IAppError;
 
         this.logger.warn(`${errorData.message} - [${method} ${path}]`, {
