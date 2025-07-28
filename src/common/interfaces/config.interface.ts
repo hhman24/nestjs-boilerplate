@@ -1,8 +1,6 @@
-export interface IDatabaseConfig {
-    host: string;
-    port: number;
-    uri: string;
-}
+import { TypeOrmModuleOptions } from "@nestjs/typeorm";
+
+export type IDatabaseConfig = TypeOrmModuleOptions;
 
 export interface IAppConfig {
     nodeEnv: string;

@@ -6,10 +6,10 @@ export const validationSchema = Joi.object({
     SERVICE_NAME: Joi.string().required(),
     PORT: Joi.number().port().required(),
     API_PREFIX: Joi.string().default("api"),
-    API_TIMEOUT: Joi.number().required().options({ convert: true }),
+    API_TIMEOUT: Joi.number().required(),
 
-    THROTTLE_TTL: Joi.number().required().options({ convert: true }),
-    THROTTLE_LIMIT: Joi.number().required().options({ convert: true }),
+    THROTTLE_TTL: Joi.number().required(),
+    THROTTLE_LIMIT: Joi.number().required(),
 
     LOG_DIR: Joi.string().default("logs"),
     LOG_LEVEL: Joi.string().default("debug"),

@@ -1,4 +1,4 @@
-import { AppErrorType, ResponseType } from "@common";
+import { IAppError, ResponseType } from "@common";
 import { MessageCodeEnum } from "@enums";
 import { RequestTimeOutException, ValidationException } from "@exceptions";
 import { ILoggerService, LOGGER_KEY } from "@modules/logger/domain";
@@ -59,7 +59,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     }
 
     private handleNotFoundException(exception: RequestTimeOutException, path: string, method: string): ResponseType {
-        const errorData = exception.getResponse() as AppErrorType;
+        const errorData = exception.getResponse() as IAppError;
 
         this.logger.warn(`${errorData.message}`, {
             sourceClass: GlobalExceptionFilter.name,
@@ -76,7 +76,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     }
 
     private handleRequestTimeOutException(exception: RequestTimeOutException, path: string, method: string): ResponseType {
-        const errorData = exception.getResponse() as AppErrorType;
+        const errorData = exception.getResponse() as IAppError;
 
         this.logger.fatal(`${errorData.message} - [${method} ${path}]`, {
             sourceClass: GlobalExceptionFilter.name,
@@ -108,7 +108,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     }
 
     private handleValidationException(exception: ValidationException, path: string, method: string): ResponseType {
-        const errorData = exception.getResponse() as AppErrorType;
+        const errorData = exception.getResponse() as IAppError;
 
         this.logger.warn(`${errorData.message} - [${method} ${path}]`, {
             sourceClass: GlobalExceptionFilter.name,

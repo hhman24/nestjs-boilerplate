@@ -1,4 +1,4 @@
-import { FindAllResponseType } from "@common";
+import { IFindAllResponse } from "@common";
 import { FilterQuery, Model, QueryOptions } from "mongoose";
 import { BaseSchema } from "src/common/bases";
 import { IBaseRepository } from "./base-interface.repository";
@@ -9,9 +9,9 @@ export abstract class BaseRepositoryMongoAbstract<T extends BaseSchema> implemen
     }
 
     async create(dto: T | any): Promise<T> {
-        const created_data = await this.model.create(dto);
+        const createdData = await this.model.create(dto);
 
-        return created_data.save();
+        return createdData.save();
     }
 
     async findOneById(id: string, projection?: string, options?: QueryOptions<T>): Promise<T> {
@@ -24,7 +24,7 @@ export abstract class BaseRepositoryMongoAbstract<T extends BaseSchema> implemen
         return await this.model.findOne({ ...condition, deletedAt: null }).exec();
     }
 
-    async findAll(condition: FilterQuery<T>, options?: QueryOptions<T>): Promise<FindAllResponseType<T>> {
+    async findAll(condition: FilterQuery<T>, options?: QueryOptions<T>): Promise<IFindAllResponse<T>> {
         const [count, items] = await Promise.all([
             this.model.countDocuments({ ...condition, deletedAt: null }),
             this.model.find({ ...condition, deletedAt: null }, options?.projection, options)
@@ -41,8 +41,8 @@ export abstract class BaseRepositoryMongoAbstract<T extends BaseSchema> implemen
     }
 
     async softDelete(id: string): Promise<boolean> {
-        const delete_item = await this.model.findById(id);
-        if (!delete_item) {
+        const deleteItem = await this.model.findById(id);
+        if (!deleteItem) {
             return false;
         }
 

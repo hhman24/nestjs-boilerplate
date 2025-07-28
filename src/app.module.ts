@@ -3,6 +3,7 @@ import { GlobalExceptionFilter } from "@filters";
 import { ApplicationThrottlerGuard } from "@guards";
 import { HttpLoggingInterceptor, RequestTimeoutInterceptor, TransformInterceptor } from "@interceptor";
 import { ContextStoraggeModule } from "@modules/context-storage/context-storage.module";
+import { DatabaseModule } from "@modules/database/database.module";
 import { HealthModule } from "@modules/health/health.module";
 import { LoggerModule } from "@modules/logger/infrastructure/nestjs/logger.module";
 import { Module } from "@nestjs/common";
@@ -32,6 +33,7 @@ import { validationSchema } from "@utils";
             useFactory: (configService: ConfigService) => [{ ttl: configService.get("THROTTLE_TTL", 60000), limit: configService.get("THROTTLE_LIMIT", 10) }]
         }),
 
+        DatabaseModule,
         HealthModule
     ],
 

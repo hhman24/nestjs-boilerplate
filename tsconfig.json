@@ -31,7 +31,8 @@
             "@common": ["src/common"],
             "@modules/*": ["src/modules/*"],
             "@configs": ["src/configs"],
-            "@decorators": ["src/decorators"]
+            "@decorators": ["src/decorators"],
+            "@repositories": ["src/repositories"]
         }
     },
     "include": [
