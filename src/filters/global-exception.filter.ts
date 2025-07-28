@@ -5,6 +5,7 @@ import { ILoggerService, LOGGER_KEY } from "@modules/logger/domain";
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus, Inject, NotFoundException } from "@nestjs/common";
 import { HttpAdapterHost } from "@nestjs/core";
 import { ThrottlerException } from "@nestjs/throttler";
+import { QueryFailedError } from "typeorm";
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -50,6 +51,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         } else if (exception instanceof ThrottlerException) {
             httpStatus = exception.getStatus();
             responseBody = this.handleThrottlerException(exception);
+        } else if (exception instanceof QueryFailedError) {
+            // httpStatus = HttpStatus.BAD_REQUEST;
+            // responseBody = this.handleThrottlerException(exception);
         } else {
             responseBody = this.handleUnexpectedError(exception, path, method);
         }

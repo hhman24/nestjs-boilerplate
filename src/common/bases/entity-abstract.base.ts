@@ -1,3 +1,4 @@
+import { plainToInstance } from "class-transformer";
 import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 /**
@@ -20,4 +21,8 @@ export abstract class AbstractEntity {
         type: "timestamp"
     })
     updatedAt!: Date;
+
+    toDto<Dto>(dtoClass: new () => Dto): Dto {
+        return plainToInstance(dtoClass, this);
+    }
 }
