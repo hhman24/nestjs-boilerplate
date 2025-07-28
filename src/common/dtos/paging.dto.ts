@@ -1,7 +1,7 @@
 import { ApiPropertyOptional, ApiResponseProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsInt, IsOptional, Max, Min } from "class-validator";
-import { PageMetaType } from "../types";
+import { IPageMetaType } from "../interfaces";
 
 export class PageOptionsRequestDto {
     @ApiPropertyOptional({ minimum: 1, default: 1 })
@@ -21,7 +21,7 @@ export class PageOptionsRequestDto {
 }
 
 export class PageMetaDto {
-    constructor({ totalItem, page, limit }: PageMetaType) {
+    constructor({ totalItem, page, limit }: IPageMetaType) {
         this.page = +page;
         this.limit = +limit;
         this.totalPage = Math.ceil(totalItem / limit);

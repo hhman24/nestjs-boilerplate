@@ -30,11 +30,12 @@
             "@validations": ["src/validations"],
             "@common": ["src/common"],
             "@modules/*": ["src/modules/*"],
-            "@configs": ["src/configs"]
+            "@configs": ["src/configs"],
+            "@decorators": ["src/decorators"]
         }
     },
     "include": [
-        "src/**/*.ts",
+        "src/**/*",
         "jest.config.ts",
         "commitlint.config.ts" // Added line
     ],

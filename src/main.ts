@@ -1,3 +1,5 @@
+import "./extensions/global.extension";
+
 import { IAppConfig } from "@common";
 import { setupSwagger } from "@configs";
 import { ConfigKeyEnum } from "@enums";
