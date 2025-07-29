@@ -6,6 +6,7 @@ import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus, Inject, NotFoundExce
 import { HttpAdapterHost } from "@nestjs/core";
 import { ThrottlerException } from "@nestjs/throttler";
 import { QueryFailedError } from "typeorm";
+import { constraintErrors } from "./constraint-error";
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -52,14 +53,31 @@ export class GlobalExceptionFilter implements ExceptionFilter {
             httpStatus = exception.getStatus();
             responseBody = this.handleThrottlerException(exception);
         } else if (exception instanceof QueryFailedError) {
-            // httpStatus = HttpStatus.BAD_REQUEST;
-            // responseBody = this.handleThrottlerException(exception);
+            responseBody = this.handleQueryFailedError(exception, path, method);
         } else {
             responseBody = this.handleUnexpectedError(exception, path, method);
         }
 
         // Respond to client
         httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
+    }
+
+    private handleQueryFailedError(exception: QueryFailedError, path: string, method: string): IResponseType {
+        const r = exception as QueryFailedError & { constraint?: string };
+        const code = r.constraint?.startsWith("UQ") ? MessageCodeEnum.CONFLICT : MessageCodeEnum.INTERNAL_SERVER_ERROR;
+        const message = constraintErrors[r.constraint] || r.constraint;
+
+        this.logger.error(`${r.query} - ${r.message}`, {
+            sourceClass: GlobalExceptionFilter.name,
+            props: { method, path },
+            error: r
+        });
+
+        return {
+            code: code,
+            data: null,
+            message: this.extractMessage(exception, message)
+        };
     }
 
     private handleNotFoundException(exception: RequestTimeOutException, path: string, method: string): IResponseType {
