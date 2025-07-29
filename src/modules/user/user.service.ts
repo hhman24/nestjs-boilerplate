@@ -2,13 +2,13 @@ import { ResourceNotFoundException } from "@exceptions";
 import { Inject, Injectable } from "@nestjs/common";
 import { CreateUserReqDto, CreateUserSettingDto } from "./dtos";
 import { UserEntity } from "./entities";
-import { IUSER_REPOSITORY_TOKEN, IUSER_SETTING_REPOSITORY_TOKEN, IUserRepository, IUserService, IUserSettingRepository } from "./interfaces";
+import { IUserRepository, IUserService, IUserSettingRepository, USER_REPOSITORY_TOKEN, USER_SETTING_REPOSITORY_TOKEN } from "./interfaces";
 
 @Injectable()
 export class UserService implements IUserService {
     constructor(
-        @Inject(IUSER_REPOSITORY_TOKEN) private readonly userRepository: IUserRepository,
-        @Inject(IUSER_SETTING_REPOSITORY_TOKEN) private readonly userSettingRepository: IUserSettingRepository
+        @Inject(USER_REPOSITORY_TOKEN) private readonly userRepository: IUserRepository,
+        @Inject(USER_SETTING_REPOSITORY_TOKEN) private readonly userSettingRepository: IUserSettingRepository
     ) {}
 
     async createUser(dto: CreateUserReqDto): Promise<UserEntity> {

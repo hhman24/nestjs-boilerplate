@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserEntity, UserSettingEntity } from "./entities";
-import { IUSER_REPOSITORY_TOKEN, IUSER_SERVICE_TOKEN, IUSER_SETTING_REPOSITORY_TOKEN } from "./interfaces";
+import { IUSER_SERVICE_TOKEN, USER_REPOSITORY_TOKEN, USER_SETTING_REPOSITORY_TOKEN } from "./interfaces";
 import { UserRepository, UserSettingRepository } from "./repositories";
 import { UserService } from "./user.service";
 
@@ -9,11 +9,11 @@ import { UserService } from "./user.service";
     imports: [TypeOrmModule.forFeature([UserEntity, UserSettingEntity])],
     providers: [
         {
-            provide: IUSER_REPOSITORY_TOKEN,
+            provide: USER_REPOSITORY_TOKEN,
             useClass: UserRepository
         },
         {
-            provide: IUSER_SETTING_REPOSITORY_TOKEN,
+            provide: USER_SETTING_REPOSITORY_TOKEN,
             useClass: UserSettingRepository
         },
         {

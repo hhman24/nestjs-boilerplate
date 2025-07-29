@@ -1,10 +1,13 @@
 import { AbstractEntity } from "src/common/bases";
 import { RoleTypeEnum } from "src/enums/type.enum";
-import { Column, Entity, OneToOne } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { UserSettingEntity } from "./user-setting.entity";
 
 @Entity({ name: "users" })
 export class UserEntity extends AbstractEntity {
+    @PrimaryGeneratedColumn("uuid")
+    id!: Uuid;
+
     @Column({ nullable: true, type: "varchar" })
     firstName!: string | null;
 

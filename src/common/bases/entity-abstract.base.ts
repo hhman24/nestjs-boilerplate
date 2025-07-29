@@ -1,5 +1,5 @@
 import { Constructor } from "@extensions";
-import { CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from "typeorm";
 
 /**
  * Abstract Entity
@@ -9,9 +9,6 @@ import { CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateC
  * otherwise just delete and use your own entity.
  */
 export abstract class AbstractEntity {
-    @PrimaryGeneratedColumn("uuid")
-    id!: Uuid;
-
     @CreateDateColumn({
         type: "timestamp"
     })

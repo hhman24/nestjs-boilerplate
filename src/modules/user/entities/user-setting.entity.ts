@@ -1,5 +1,5 @@
 import { AbstractEntity } from "src/common/bases";
-import { Column, Entity, JoinColumn, OneToOne, Relation } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn, Relation } from "typeorm";
 import { UserEntity } from "./user.entity";
 
 @Entity({ name: "user_setting" })
@@ -10,7 +10,7 @@ export class UserSettingEntity extends AbstractEntity {
     @Column({ default: false })
     isPhoneVerified?: boolean;
 
-    @Column({ type: "uuid" })
+    @PrimaryColumn({ type: "uuid" })
     userId?: string;
 
     @OneToOne(() => UserEntity, (user) => user.settings, {

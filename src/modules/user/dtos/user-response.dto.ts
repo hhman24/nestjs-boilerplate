@@ -5,6 +5,9 @@ import { UserEntity } from "../entities";
 
 export class UserResponseDto extends AbstractDto {
     @ApiResponseProperty()
+    id!: Uuid;
+
+    @ApiResponseProperty()
     firstName?: string | null;
 
     @ApiResponseProperty()
