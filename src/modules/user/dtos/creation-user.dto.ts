@@ -1,4 +1,4 @@
-import { StringField } from "@decorators";
+import { BooleanFieldOptional, StringField } from "@decorators";
 import { IsEmail, IsPhoneNumber, IsStrongPassword } from "class-validator";
 
 export class CreateUserReqDto {
@@ -19,4 +19,12 @@ export class CreateUserReqDto {
     @StringField()
     @IsPhoneNumber()
     phone?: string;
+}
+
+export class CreateUserSettingDto {
+    @BooleanFieldOptional()
+    isEmailVerified?: boolean;
+
+    @BooleanFieldOptional()
+    isPhoneVerified?: boolean;
 }

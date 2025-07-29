@@ -41,10 +41,10 @@ export abstract class BaseRepositoryTypeOrmAbstract<T extends AbstractEntity> im
         return { items: data, count: total };
     }
 
-    async update(id: string, dto: DeepPartial<T>): Promise<T> {
+    async update(id: string, dto: DeepPartial<T>): Promise<T | null> {
         const entity = await this.repository.findOne({ where: { id } as any });
         if (!entity) {
-            throw new Error(`Entity with ID ${id} not found`);
+            return null;
         }
 
         const updated = this.repository.merge(entity, dto);

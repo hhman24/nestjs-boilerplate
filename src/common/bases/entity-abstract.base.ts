@@ -1,5 +1,5 @@
 import { Constructor } from "@extensions";
-import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 /**
  * Abstract Entity
@@ -21,6 +21,11 @@ export abstract class AbstractEntity {
         type: "timestamp"
     })
     updatedAt!: Date;
+
+    @DeleteDateColumn({
+        type: "timestamp"
+    })
+    deletedAt!: Date;
 
     toDto<Dto, IDtoOptions>(dtoClass: Constructor<Dto, [this, IDtoOptions?]>, options?: IDtoOptions): Dto {
         if (!this) {

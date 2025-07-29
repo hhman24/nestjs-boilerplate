@@ -1,11 +1,28 @@
-import { IClassFieldOptions, IEnumFieldOptions, IFieldOptions, INumberFieldOptions, IStringFieldOptions } from "@common";
+import { IBooleanFieldOptions, IClassFieldOptions, IEnumFieldOptions, IFieldOptions, INumberFieldOptions, IStringFieldOptions } from "@common";
 import { applyDecorators } from "@nestjs/common";
 import { ApiProperty, type ApiPropertyOptions } from "@nestjs/swagger";
 import { Expose, Type } from "class-transformer";
-import { IsDate, IsDefined, IsEnum, IsInt, IsNumber, IsPositive, IsString, IsUUID, Matches, Max, MaxLength, Min, MinLength, NotEquals, ValidateNested } from "class-validator";
+import {
+    IsBoolean,
+    IsDate,
+    IsDefined,
+    IsEnum,
+    IsInt,
+    IsNumber,
+    IsPositive,
+    IsString,
+    IsUUID,
+    Matches,
+    Max,
+    MaxLength,
+    Min,
+    MinLength,
+    NotEquals,
+    ValidateNested
+} from "class-validator";
 import { Constructor } from "src/extensions";
 import { ApiEnumProperty, ApiUUIDProperty } from "./swagger-property.decorator";
-import { LinkCleanupTransform, ToArray, ToLowerCase, ToUpperCase, Trim } from "./transfrom.decorator";
+import { LinkCleanupTransform, ToArray, ToBoolean, ToLowerCase, ToUpperCase, Trim } from "./transfrom.decorator";
 import { IsNullable, IsUndefinable } from "./validator.decorator";
 
 export function EnumField<TEnum extends object>(
@@ -165,6 +182,26 @@ export function NumberField(options: Omit<ApiPropertyOptions, "type"> & INumberF
 
 export function NumberFieldOptional(options: Omit<ApiPropertyOptions, "type" | "required"> & INumberFieldOptions = {}): PropertyDecorator {
     return applyDecorators(IsUndefinable(), NumberField({ required: false, ...options }));
+}
+
+export function BooleanField(options: Omit<ApiPropertyOptions, "type"> & IBooleanFieldOptions = {}): PropertyDecorator {
+    const decorators = [ToBoolean(), IsBoolean()];
+
+    if (options.nullable) {
+        decorators.push(IsNullable());
+    } else {
+        decorators.push(NotEquals(null));
+    }
+
+    if (options.swagger !== false) {
+        decorators.push(ApiProperty({ type: Boolean, ...(options as ApiPropertyOptions) }));
+    }
+
+    return applyDecorators(...decorators);
+}
+
+export function BooleanFieldOptional(options: Omit<ApiPropertyOptions, "type" | "required"> & IBooleanFieldOptions = {}): PropertyDecorator {
+    return applyDecorators(IsUndefinable(), BooleanField({ required: false, ...options }));
 }
 
 export function ClassField<TClass extends Constructor>(getClass: () => TClass, options: Omit<ApiPropertyOptions, "type"> & IClassFieldOptions = {}): PropertyDecorator {

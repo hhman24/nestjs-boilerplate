@@ -13,4 +13,14 @@ export class UserRepository extends BaseRepositoryTypeOrmAbstract<UserEntity> im
     ) {
         super(repository);
     }
+
+    async findOneWithUserSetting(userId: Uuid, projection = ""): Promise<UserEntity> {
+        const select = projection ? (projection.split(" ") as (keyof UserEntity)[]) : undefined;
+
+        return this.repository.findOne({
+            where: { id: userId },
+            select: select,
+            relations: ["user_setting"]
+        });
+    }
 }
