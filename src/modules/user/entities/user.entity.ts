@@ -1,4 +1,5 @@
 import { AbstractEntity } from "src/common/bases";
+import { RoleTypeEnum } from "src/enums/type.enum";
 import { Column, Entity } from "typeorm";
 
 @Entity({ name: "users" })
@@ -12,6 +13,9 @@ export class UserEntity extends AbstractEntity {
     @Column({ unique: true, nullable: true, type: "varchar" })
     email!: string | null;
 
+    @Column({ type: "enum", enum: RoleTypeEnum, default: RoleTypeEnum.USER })
+    role!: RoleTypeEnum;
+
     @Column({ nullable: true, type: "varchar" })
     password!: string | null;
 
@@ -20,4 +24,9 @@ export class UserEntity extends AbstractEntity {
 
     @Column({ nullable: true, type: "varchar" })
     avatar!: string | null;
+
+    constructor(entity: Partial<UserEntity>) {
+        super();
+        Object.assign(this, entity);
+    }
 }

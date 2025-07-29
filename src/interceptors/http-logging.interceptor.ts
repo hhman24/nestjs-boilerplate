@@ -1,7 +1,7 @@
 import { ILoggerService, LOGGER_KEY } from "@modules/logger/domain";
 import { CallHandler, ExecutionContext, Inject, Injectable, NestInterceptor } from "@nestjs/common";
 import { Request, Response } from "express";
-import { Observable, tap } from "rxjs";
+import { catchError, Observable, tap } from "rxjs";
 
 @Injectable()
 export class HttpLoggingInterceptor implements NestInterceptor {
@@ -27,6 +27,15 @@ export class HttpLoggingInterceptor implements NestInterceptor {
                 const statusCode = response.statusCode;
 
                 this.logger.info(`${method} ${originalUrl} ${protocol} ${statusCode} +${duration}ms - SIZE: ${contentLength} ${referrer} UA: ${userAgent} - IP: ${ip}`);
+            }),
+            catchError((error) => {
+                // Error logging
+                const duration = Date.now() - startTime;
+                const statusCode = response.statusCode || 500;
+
+                this.logger.error(`${method} ${originalUrl} ${protocol} ${statusCode} +${duration}ms - UA: ${userAgent} - IP: ${ip}`);
+
+                throw error; // Rethrow to let ExceptionFilter handle it
             })
         );
     }

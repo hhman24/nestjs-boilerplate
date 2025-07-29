@@ -1,5 +1,6 @@
 import { DateField, UUIDField } from "@decorators";
 import { AbstractEntity } from "../bases/entity-abstract.base";
+import { IDtoOptions } from "../interfaces";
 
 export class AbstractDto {
     @UUIDField()
@@ -13,7 +14,7 @@ export class AbstractDto {
 
     translations?: AbstractTranslationDto[];
 
-    constructor(entity: AbstractEntity, options?: { excludeFields?: boolean }) {
+    constructor(entity: AbstractEntity, options?: IDtoOptions) {
         if (!options?.excludeFields) {
             this.id = entity.id;
             this.createdAt = entity.createdAt;

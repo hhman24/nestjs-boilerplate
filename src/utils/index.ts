@@ -1,4 +1,5 @@
 export * from "./config-validation.util";
+export * from "./name-strategy.util";
 
 export function getVariableName<TResult>(getVar: () => TResult): string | undefined {
     const m = /\(\)=>(.*)/.exec(getVar.toString().replaceAll(/(\r\n|\n|\r|\s)/gm, ""));

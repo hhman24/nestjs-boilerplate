@@ -1,4 +1,4 @@
-import { plainToInstance } from "class-transformer";
+import { Constructor } from "@extensions";
 import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 /**
@@ -22,7 +22,7 @@ export abstract class AbstractEntity {
     })
     updatedAt!: Date;
 
-    toDto<Dto>(dtoClass: new () => Dto): Dto {
-        return plainToInstance(dtoClass, this);
+    toDto<Dto, IDtoOptions>(dtoClass: Constructor<Dto, [this, IDtoOptions?]>, options?: IDtoOptions): Dto {
+        return new dtoClass(this, options);
     }
 }

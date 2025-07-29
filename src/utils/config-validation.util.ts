@@ -16,8 +16,9 @@ export const validationSchema = Joi.object({
 
     ALLOW_ORIGINS: Joi.string().required(),
 
-    DATABASE_HOST: Joi.string().required(),
-    DATABASE_PORT: Joi.number().options({ convert: true }).default(5432),
-    DATABASE_USER: Joi.string().required(),
-    DATABASE_PASSWORD: Joi.string().required()
+    MY_SQL_HOST: Joi.string().required(),
+    MY_SQL_PORT: Joi.number().options({ convert: true }).default(5432),
+    MY_SQL_USERNAME: Joi.string().required(),
+    MY_SQL_PASSWORD: Joi.string().required(),
+    MY_SQL_DB_NAME: Joi.string().required()
 });

@@ -7,10 +7,6 @@ export abstract class BaseRepositoryTypeOrmAbstract<T extends AbstractEntity> im
     constructor(protected readonly repository: Repository<T>) {}
 
     async create(dto: DeepPartial<T>): Promise<T> {
-        if (Array.isArray(dto)) {
-            // FIXME defind query exception
-            throw new Error(`Expected a signle entity`);
-        }
         const entity = this.repository.create(dto);
 
         return this.repository.save(entity);

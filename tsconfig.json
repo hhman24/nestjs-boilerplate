@@ -7,6 +7,7 @@
         "experimentalDecorators": true,
         "target": "ES2021",
         "sourceMap": true,
+        "inlineSources": true,
         "outDir": "./dist",
         "baseUrl": "./",
         "incremental": true,
@@ -32,7 +33,8 @@
             "@modules/*": ["src/modules/*"],
             "@configs": ["src/configs"],
             "@decorators": ["src/decorators"],
-            "@repositories": ["src/repositories"]
+            "@repositories": ["src/repositories"],
+            "@extensions": ["src/extensions"]
         }
     },
     "include": [

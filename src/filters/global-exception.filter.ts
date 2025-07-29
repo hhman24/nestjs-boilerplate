@@ -65,7 +65,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     private handleQueryFailedError(exception: QueryFailedError, path: string, method: string): IResponseType {
         const r = exception as QueryFailedError & { constraint?: string };
         const code = r.constraint?.startsWith("UQ") ? MessageCodeEnum.CONFLICT : MessageCodeEnum.INTERNAL_SERVER_ERROR;
-        const message = constraintErrors[r.constraint] || r.constraint;
+        const message = r.constraint?.startsWith("UQ") ? constraintErrors[r.constraint] || r.constraint : "common.error.internal_server_error";
 
         this.logger.error(`${r.query} - ${r.message}`, {
             sourceClass: GlobalExceptionFilter.name,
@@ -100,7 +100,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     private handleRequestTimeOutException(exception: RequestTimeOutException, path: string, method: string): IResponseType {
         const errorData = exception.getResponse() as IAppError;
 
-        this.logger.fatal(`${errorData.message} - [${method} ${path}]`, {
+        this.logger.fatal(`${errorData.message}`, {
             sourceClass: GlobalExceptionFilter.name,
             error: errorData?.error ?? undefined,
             props: { method, path }
@@ -132,7 +132,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     private handleValidationException(exception: ValidationException, path: string, method: string): IResponseType {
         const errorData = exception.getResponse() as IAppError;
 
-        this.logger.warn(`${errorData.message} - [${method} ${path}]`, {
+        this.logger.warn(`${errorData.message}`, {
             sourceClass: GlobalExceptionFilter.name,
             error: errorData?.error ?? undefined,
             props: { method, path }

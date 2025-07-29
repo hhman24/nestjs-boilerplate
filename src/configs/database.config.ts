@@ -1,6 +1,7 @@
 import { IDatabaseConfig } from "@common";
 import { ConfigKeyEnum } from "@enums";
 import { registerAs } from "@nestjs/config";
+import { SnakeNamingStrategy } from "@utils";
 import path from "path";
 
 export const MySqlConfig = registerAs(ConfigKeyEnum.MY_SQL, (): IDatabaseConfig => {
@@ -12,13 +13,15 @@ export const MySqlConfig = registerAs(ConfigKeyEnum.MY_SQL, (): IDatabaseConfig 
         host: process.env.MY_SQL_HOST || "localhost",
         port: Number(process.env.MY_SQL_PORT || 3306),
         username: process.env.MY_SQL_USERNAME,
-        password: process.env.MY_SQL_HOST,
+        password: process.env.MY_SQL_PASSWORD,
         database: process.env.MY_SQL_DB_NAME,
-        synchronize: process.env.MY_SQL_SYNC === "true",
-        dropSchema: true,
+        // synchronize: process.env.MY_SQL_SYNC === "true",
+        synchronize: true,
+        dropSchema: false,
         logging: process.env.MY_SQL_LOGGING === "true" ? ["error", "warn", "query"] : ["error", "warn"],
         logger: "advanced-console",
-        entities: [path.join(__dirname, "..", "modules", "**", "entities", "*.entity.{ts,js}")]
+        entities: [path.join(__dirname, "..", "modules", "**", "entities", "*.entity.{ts,js}")],
+        namingStrategy: new SnakeNamingStrategy()
         // migrations: [__dirname + "/migrations/**/*{.ts,.js}"],
         // migrationsTableName: "migrations",
         // poolSize: Number(process.env.MY_SQL_MAX_CONNECTIONS || 10),

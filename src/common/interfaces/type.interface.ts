@@ -11,3 +11,8 @@ export type IResponseType<T = any> = {
 };
 
 export type IFindAllResponse<T> = { count: number; items: T[] };
+
+export type IDtoOptions = { excludeFields?: boolean };
+export interface IDto<T> {
+    new (entity: T, options?: any): any;
+}

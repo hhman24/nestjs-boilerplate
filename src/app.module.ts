@@ -2,6 +2,7 @@ import { configurations } from "@configs";
 import { GlobalExceptionFilter } from "@filters";
 import { ApplicationThrottlerGuard } from "@guards";
 import { HttpLoggingInterceptor, RequestTimeoutInterceptor, TransformInterceptor } from "@interceptor";
+import { ApiModule } from "@modules/api/api.module";
 import { ContextStoraggeModule } from "@modules/context-storage/context-storage.module";
 import { DatabaseModule } from "@modules/database/database.module";
 import { HealthModule } from "@modules/health/health.module";
@@ -34,7 +35,8 @@ import { validationSchema } from "@utils";
         }),
 
         DatabaseModule,
-        HealthModule
+        HealthModule,
+        ApiModule
     ],
 
     providers: [
