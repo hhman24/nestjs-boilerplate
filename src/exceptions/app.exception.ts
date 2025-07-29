@@ -1,18 +1,16 @@
 import { IAppError } from "@common";
-import { MessageCodeEnum } from "@enums";
 import { HttpException, HttpStatus } from "@nestjs/common";
 
-export class AppException extends HttpException {
-    constructor({ message, code = MessageCodeEnum.INTERNAL_SERVER_ERROR }: IAppError, status?: HttpStatus) {
-        super({ message, code }, status);
+export class AppException<TMeta extends Record<string, any> = any> extends HttpException {
+    constructor({ message, code, error, meta }: IAppError<TMeta>, status?: HttpStatus) {
+        super({ message, code, meta }, status);
+
+        // Optional: attach error for deeper logging (e.g., stack trace)
+        if (error) {
+            this.stack = error.stack;
+        }
     }
 }
-
-// export class ResourceNotFoundException extends AppException {
-//     constructor(resourceType: string, identifier: string | number) {
-//         super(`${resourceType} with identifier ${identifier} not found`, HttpStatus.NOT_FOUND, "RESOURCE_NOT_FOUND");
-//     }
-// }
 
 // export class AuthenticationException extends AppException {
 //     constructor(message = "Authentication failed") {

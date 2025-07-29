@@ -1,6 +1,6 @@
 import { IAppError, IResponseType } from "@common";
 import { MessageCodeEnum } from "@enums";
-import { RequestTimeOutException, ValidationException } from "@exceptions";
+import { RequestTimeOutException, ResourceNotFoundException, ValidationException } from "@exceptions";
 import { ILoggerService, LOGGER_KEY } from "@modules/logger/domain";
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus, Inject, NotFoundException } from "@nestjs/common";
 import { HttpAdapterHost } from "@nestjs/core";
@@ -54,12 +54,30 @@ export class GlobalExceptionFilter implements ExceptionFilter {
             responseBody = this.handleThrottlerException(exception);
         } else if (exception instanceof QueryFailedError) {
             responseBody = this.handleQueryFailedError(exception, path, method);
+        } else if (exception instanceof ResourceNotFoundException) {
+            httpStatus = exception.getStatus();
+            responseBody = this.handleResourceNotFoundException(exception, path, method);
         } else {
             responseBody = this.handleUnexpectedError(exception, path, method);
         }
 
         // Respond to client
         httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
+    }
+
+    private handleResourceNotFoundException(exception: ResourceNotFoundException, path: string, method: string): IResponseType {
+        const r = exception.getResponse() as IAppError;
+
+        this.logger.error(`${r.message}`, {
+            sourceClass: GlobalExceptionFilter.name,
+            props: { method, path, ...r.meta }
+        });
+
+        return {
+            code: MessageCodeEnum.NOT_FOUND,
+            data: null,
+            message: r.message
+        };
     }
 
     private handleQueryFailedError(exception: QueryFailedError, path: string, method: string): IResponseType {

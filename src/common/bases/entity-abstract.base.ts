@@ -23,6 +23,10 @@ export abstract class AbstractEntity {
     updatedAt!: Date;
 
     toDto<Dto, IDtoOptions>(dtoClass: Constructor<Dto, [this, IDtoOptions?]>, options?: IDtoOptions): Dto {
+        if (!this) {
+            throw new Error(`Cannot call toDto() on null or undefined instance of ${dtoClass.name}`);
+        }
+
         return new dtoClass(this, options);
     }
 }

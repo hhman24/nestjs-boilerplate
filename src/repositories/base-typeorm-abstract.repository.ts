@@ -12,7 +12,7 @@ export abstract class BaseRepositoryTypeOrmAbstract<T extends AbstractEntity> im
         return this.repository.save(entity);
     }
 
-    async findOneById(id: string, projection?: string, options?: Omit<FindOneOptions<T>, "where" | "select">): Promise<T> {
+    async findOneById(id: string, projection?: string, options?: Omit<FindOneOptions<T>, "where" | "select">): Promise<T | null> {
         const select = projection ? (projection.split(" ") as (keyof T)[]) : undefined;
 
         return this.repository.findOne({

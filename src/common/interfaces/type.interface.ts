@@ -1,9 +1,3 @@
-export type IAppError = {
-    message: string;
-    error?: Error;
-    code: number;
-};
-
 export type IResponseType<T = any> = {
     code?: number;
     message?: string;
@@ -16,3 +10,5 @@ export type IDtoOptions = { excludeFields?: boolean };
 export interface IDto<T> {
     new (entity: T, options?: any): any;
 }
+
+export type IResourceType = "user" | "post";

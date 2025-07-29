@@ -33,7 +33,7 @@ export class HttpLoggingInterceptor implements NestInterceptor {
                 const duration = Date.now() - startTime;
                 const statusCode = response.statusCode || 500;
 
-                this.logger.error(`${method} ${originalUrl} ${protocol} ${statusCode} +${duration}ms - UA: ${userAgent} - IP: ${ip}`);
+                this.logger.info(`${method} ${originalUrl} ${protocol} ${statusCode} +${duration}ms - UA: ${userAgent} - IP: ${ip}`);
 
                 throw error; // Rethrow to let ExceptionFilter handle it
             })

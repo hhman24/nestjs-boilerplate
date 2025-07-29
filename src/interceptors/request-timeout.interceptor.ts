@@ -16,7 +16,7 @@ export class RequestTimeoutInterceptor implements NestInterceptor {
             timeout(appConfig.apiTimeout), // Correct placement of timeout
             catchError((err) => {
                 if (err instanceof TimeoutError) {
-                    return throwError(() => new RequestTimeOutException({ message: "Request timeout. try later!!", code: MessageCodeEnum.REQUEST_TIMEOUT, error: err }));
+                    return throwError(() => new RequestTimeOutException({ message: "Request timeout. try later!!", code: MessageCodeEnum.REQUEST_TIMEOUT }));
                 }
 
                 return throwError(() => err);

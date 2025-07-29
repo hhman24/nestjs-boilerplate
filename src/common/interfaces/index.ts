@@ -1,4 +1,5 @@
 export * from "./config.interface";
+export * from "./error.interface";
 export * from "./field.interface";
 export * from "./mapper.interface";
 export * from "./paginate.interface";
