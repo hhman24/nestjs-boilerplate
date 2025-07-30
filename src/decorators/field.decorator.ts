@@ -103,22 +103,6 @@ export function DateFieldOptional(options: Omit<ApiPropertyOptions, "type" | "re
 export function StringField(options: Omit<ApiPropertyOptions, "type"> & IStringFieldOptions = {}): PropertyDecorator {
     const decorators = [Type(() => String), IsString({ each: options.each }), Trim(options.trimNewLines)];
 
-    if (options.nullable) {
-        decorators.push(IsNullable({ each: options.each }));
-    } else {
-        decorators.push(NotEquals(null, { each: options.each }));
-    }
-
-    if (options.swagger !== false) {
-        decorators.push(
-            ApiProperty({
-                type: String,
-                ...(options as ApiPropertyOptions),
-                isArray: options.each
-            })
-        );
-    }
-
     const minLength = options.minLength ?? 1;
 
     decorators.push(MinLength(minLength, { each: options.each }));
@@ -133,6 +117,26 @@ export function StringField(options: Omit<ApiPropertyOptions, "type"> & IStringF
 
     if (options.toUpperCase) {
         decorators.push(ToUpperCase());
+    }
+
+    if (options.each) {
+        decorators.push(ToArray());
+    }
+
+    if (options.nullable) {
+        decorators.push(IsNullable({ each: options.each }));
+    } else {
+        decorators.push(NotEquals(null, { each: options.each }));
+    }
+
+    if (options.swagger !== false) {
+        decorators.push(
+            ApiProperty({
+                type: String,
+                ...(options as ApiPropertyOptions),
+                isArray: options.each
+            })
+        );
     }
 
     return applyDecorators(...decorators);
@@ -151,14 +155,6 @@ export function NumberField(options: Omit<ApiPropertyOptions, "type"> & INumberF
         decorators.push(NotEquals(null, { each: options.each }));
     }
 
-    if (options.swagger !== false) {
-        decorators.push(ApiProperty({ type: Number, ...(options as ApiPropertyOptions) }));
-    }
-
-    if (options.each) {
-        decorators.push(ToArray());
-    }
-
     if (options.int) {
         decorators.push(IsInt({ each: options.each }));
     } else {
@@ -175,6 +171,14 @@ export function NumberField(options: Omit<ApiPropertyOptions, "type"> & INumberF
 
     if (options.isPositive) {
         decorators.push(IsPositive({ each: options.each }));
+    }
+
+    if (options.each) {
+        decorators.push(ToArray());
+    }
+
+    if (options.swagger !== false) {
+        decorators.push(ApiProperty({ type: Number, ...(options as ApiPropertyOptions) }));
     }
 
     return applyDecorators(...decorators);

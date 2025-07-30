@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserEntity, UserSettingEntity } from "./entities";
-import { IUSER_SERVICE_TOKEN, USER_REPOSITORY_TOKEN, USER_SETTING_REPOSITORY_TOKEN } from "./interfaces";
+import { USER_REPOSITORY_TOKEN, USER_SERVICE_TOKEN, USER_SETTING_REPOSITORY_TOKEN } from "./interfaces";
 import { UserRepository, UserSettingRepository } from "./repositories";
 import { UserService } from "./user.service";
 
@@ -17,10 +17,10 @@ import { UserService } from "./user.service";
             useClass: UserSettingRepository
         },
         {
-            provide: IUSER_SERVICE_TOKEN,
+            provide: USER_SERVICE_TOKEN,
             useClass: UserService
         }
     ],
-    exports: [IUSER_SERVICE_TOKEN]
+    exports: [USER_SERVICE_TOKEN]
 })
 export class UserModule {}

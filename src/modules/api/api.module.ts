@@ -1,9 +1,10 @@
+import { PostModule } from "@modules/post/post.module";
 import { UserModule } from "@modules/user/user.module";
 import { Module } from "@nestjs/common";
 import { UserController } from "./user.controller";
 
 @Module({
-    imports: [UserModule],
+    imports: [UserModule, PostModule],
     controllers: [UserController]
 })
 export class ApiModule {}

@@ -1,14 +1,14 @@
 import { ResponseTypeDto } from "@common";
 import { ApiOkResponseCustom, UUIDParam } from "@decorators";
 import { CreateUserReqDto, UserResponseDto } from "@modules/user/dtos";
-import { IUSER_SERVICE_TOKEN, IUserService } from "@modules/user/interfaces";
+import { IUserService, USER_SERVICE_TOKEN } from "@modules/user/interfaces";
 import { Body, Controller, Get, HttpCode, HttpStatus, Inject, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 
 @Controller("users")
 @ApiTags("Users")
 export class UserController {
-    constructor(@Inject(IUSER_SERVICE_TOKEN) private readonly userService: IUserService) {}
+    constructor(@Inject(USER_SERVICE_TOKEN) private readonly userService: IUserService) {}
 
     @Post()
     @HttpCode(HttpStatus.OK)
