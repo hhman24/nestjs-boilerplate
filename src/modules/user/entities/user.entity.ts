@@ -1,6 +1,7 @@
+import { PostEntity } from "@modules/post/entities/post.entity";
 import { AbstractEntity } from "src/common/bases";
 import { RoleTypeEnum } from "src/enums/type.enum";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { UserSettingEntity } from "./user-setting.entity";
 
 @Entity({ name: "users" })
@@ -29,9 +30,15 @@ export class UserEntity extends AbstractEntity {
     @Column({ nullable: true, type: "varchar" })
     avatar!: string | null;
 
-    // define relationship with user_setting table
-    @OneToOne(() => UserSettingEntity, (userSetting) => userSetting.user)
-    settings?: UserSettingEntity;
+    // define relation with user_setting table
+    @OneToOne(() => UserSettingEntity, (userSetting) => userSetting.user, {
+        cascade: true,
+        eager: false
+    })
+    setting?: UserSettingEntity;
+
+    @OneToMany(() => PostEntity, (postEntity) => postEntity.user)
+    posts: PostEntity[];
 
     constructor(entity: Partial<UserEntity>) {
         super();

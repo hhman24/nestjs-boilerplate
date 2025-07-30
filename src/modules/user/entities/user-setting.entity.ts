@@ -13,7 +13,7 @@ export class UserSettingEntity extends AbstractEntity {
     @PrimaryColumn({ type: "uuid" })
     userId?: string;
 
-    @OneToOne(() => UserEntity, (user) => user.settings, {
+    @OneToOne(() => UserEntity, (user) => user.setting, {
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
     })
