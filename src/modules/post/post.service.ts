@@ -8,7 +8,7 @@ import { PostTranslationRepository } from "./repositories";
 export class PostService implements IPostService {
     constructor(
         @Inject(POST_REPOSITORY_TOKEN) private readonly postRepository: IPostRepository,
-        @Inject(POST_TRANSLATION_REPOSITORY_TOKEN) private readonly postTranslationRepo: PostTranslationRepository
+        @Inject(POST_TRANSLATION_REPOSITORY_TOKEN) private readonly postTranslationRepository: PostTranslationRepository
     ) {}
 
     async create(userId: Uuid, createPostDto: CreatePostReqDto): Promise<PostEntity> {
@@ -18,7 +18,7 @@ export class PostService implements IPostService {
         for (const createTranslationDto of createPostDto.title) {
             const languageCode = createTranslationDto.languageCode;
 
-            const translationEntity = await this.postTranslationRepo.create({
+            const translationEntity = await this.postTranslationRepository.create({
                 postId: postEntity.id,
                 languageCode: languageCode,
                 title: createTranslationDto.text,

@@ -13,6 +13,8 @@ import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
 import { ThrottlerModule } from "@nestjs/throttler";
 import { ValidationPipe } from "@pipes";
 import { validationSchema } from "@utils";
+import { OrderModule } from "./modules/order/order.module";
+import { ProductModule } from "./modules/product/product.module";
 
 @Module({
     imports: [
@@ -36,7 +38,9 @@ import { validationSchema } from "@utils";
 
         DatabaseModule,
         HealthModule,
-        ApiModule
+        ApiModule,
+        OrderModule,
+        ProductModule
     ],
 
     providers: [

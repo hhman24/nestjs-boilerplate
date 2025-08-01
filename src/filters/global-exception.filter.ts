@@ -174,7 +174,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         return {
             code: MessageCodeEnum.INTERNAL_SERVER_ERROR,
             data: null,
-            message: exception?.message ?? "An unexpected error occurred"
+            message: "An unexpected error occurred"
         };
     }
 
