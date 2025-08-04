@@ -1,7 +1,7 @@
 {
     "name": "nestjs-boilerplate",
-    "version": "0.0.1",
-    "description": "",
+    "version": "10.0.0",
+    "description": "Nestjs boilerplate",
     "author": "",
     "private": true,
     "license": "UNLICENSED",
@@ -20,7 +20,9 @@
         "test:cov": "jest --coverage",
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
         "test:e2e": "jest --config ./test/jest-e2e.json",
-        "docker:dev": "docker compose -f docker-compose.yml up --build -V -d"
+        "docker:dev": "docker compose -f docker-compose.yml up --build -V -d",
+        "typeorm": "typeorm-ts-node-esm",
+        "migration:generate": "npm run typeorm migration:generate -d src/databases/datasource.ts"
     },
     "dependencies": {
         "@nestjs/common": "^10.0.0",

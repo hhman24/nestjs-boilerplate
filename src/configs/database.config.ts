@@ -8,6 +8,13 @@ export const MySqlConfig = registerAs(ConfigKeyEnum.MY_SQL, (): IDatabaseConfig 
     // const sslEnabled = process.env.MY_SQL_SSL === "true";
     // const rejectUnauthorized = process.env.MY_SQL_REJECT_UNAUTHORIZED === "true";
 
+    const entities = [
+        path.join(__dirname, "..", "modules", "**", "entities", "*.entity.{ts,js}")
+        // path.join__dirname, "..", "modules", "**", "entities", "*.view-entity{.ts,.js}") // insert view entities,
+    ];
+
+    const migrations = [path.join(__dirname, "..", "databases", "migrations", "*.{ts,js}")];
+
     return {
         type: "mysql",
         host: process.env.MY_SQL_HOST || "localhost",
@@ -16,14 +23,15 @@ export const MySqlConfig = registerAs(ConfigKeyEnum.MY_SQL, (): IDatabaseConfig 
         password: process.env.MY_SQL_PASSWORD,
         database: process.env.MY_SQL_DB_NAME,
         // synchronize: process.env.MY_SQL_SYNC === "true",
-        synchronize: true,
+        synchronize: false,
         dropSchema: false,
         logging: process.env.MY_SQL_LOGGING === "true" ? ["error", "warn", "query"] : ["error", "warn"],
         logger: "advanced-console",
-        entities: [path.join(__dirname, "..", "modules", "**", "entities", "*.entity.{ts,js}")],
-        namingStrategy: new SnakeNamingStrategy()
-        // migrations: [__dirname + "/migrations/**/*{.ts,.js}"],
-        // migrationsTableName: "migrations",
+        entities: entities,
+        namingStrategy: new SnakeNamingStrategy(),
+        migrations: migrations,
+        migrationsTableName: "migrations",
+        migrationsRun: false
         // poolSize: Number(process.env.MY_SQL_MAX_CONNECTIONS || 10),
         // ssl: sslEnabled
         //     ? {
