@@ -5,6 +5,9 @@
     "author": "",
     "private": true,
     "license": "UNLICENSED",
+    "engines": {
+        "node": ">=22.0.0"
+    },
     "scripts": {
         "prepare": "husky",
         "lint-staged": "lint-staged",
@@ -21,8 +24,12 @@
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
         "test:e2e": "jest --config ./test/jest-e2e.json",
         "docker:dev": "docker compose -f docker-compose.yml up --build -V -d",
-        "typeorm": "typeorm-ts-node-esm",
-        "migration:generate": "npm run typeorm migration:generate -d src/databases/datasource.ts"
+        "typeorm": "typeorm-ts-node-commonjs -d src/databases/datasource.ts",
+        "migration:up": "npm run typeorm migration:run",
+        "migration:down": "npm run typeorm migration:revert",
+        "migration:show": "npm run typeorm migration:show",
+        "migration:create": "npm run typeorm migration:create",
+        "schema:generate": "npm run typeorm migration:generate --pretty"
     },
     "dependencies": {
         "@nestjs/common": "^10.0.0",

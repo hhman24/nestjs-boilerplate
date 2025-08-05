@@ -1,12 +1,11 @@
-import { SnakeNamingStrategy } from "@utils";
-
 import dotenv from "dotenv";
 import { DataSource } from "typeorm";
+import { SnakeNamingStrategy } from "../utils/name-strategy.util";
 
 dotenv.config();
 
 export const dataSource = new DataSource({
-    type: "postgres",
+    type: "mysql",
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     username: process.env.DB_USERNAME,
