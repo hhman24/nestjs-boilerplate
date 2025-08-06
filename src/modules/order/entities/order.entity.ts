@@ -4,7 +4,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 @Entity({ name: "orders" })
 export class OrderEntity extends AbstractEntity {
     @PrimaryGeneratedColumn("uuid")
-    id: Uuid;
+    id: string;
 
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
     orderedOn: Date;

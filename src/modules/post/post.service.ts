@@ -11,7 +11,7 @@ export class PostService implements IPostService {
         @Inject(POST_TRANSLATION_REPOSITORY_TOKEN) private readonly postTranslationRepository: PostTranslationRepository
     ) {}
 
-    async create(userId: Uuid, createPostDto: CreatePostReqDto): Promise<PostEntity> {
+    async create(userId: string, createPostDto: CreatePostReqDto): Promise<PostEntity> {
         const postEntity = await this.postRepository.create({ userId });
         const translations: PostTranslationEntity[] = [];
 

@@ -24,12 +24,14 @@
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
         "test:e2e": "jest --config ./test/jest-e2e.json",
         "docker:dev": "docker compose -f docker-compose.yml up --build -V -d",
-        "typeorm": "typeorm-ts-node-commonjs -d src/databases/datasource.ts",
+        "typeorm": "ts-node -r tsconfig-paths/register -r dotenv/config node_modules/typeorm/cli.js -d src/databases/datasource.ts",
         "migration:up": "npm run typeorm migration:run",
         "migration:down": "npm run typeorm migration:revert",
         "migration:show": "npm run typeorm migration:show",
         "migration:create": "npm run typeorm migration:create",
-        "schema:generate": "npm run typeorm migration:generate --pretty"
+        "schema:generate": "npm run typeorm migration:generate --pretty",
+        "seed:create": "ts-node -r tsconfig-paths/register -r dotenv/config ./node_modules/typeorm-extension/bin/cli.cjs seed:create",
+        "seed:run": "ts-node -r tsconfig-paths/register -r dotenv/config ./node_modules/typeorm-extension/bin/cli.cjs seed:run"
     },
     "dependencies": {
         "@nestjs/common": "^10.0.0",
@@ -52,6 +54,7 @@
         "reflect-metadata": "^0.2.0",
         "rxjs": "^7.8.1",
         "typeorm": "^0.3.25",
+        "typeorm-extension": "^3.7.1",
         "uuid": "^11.1.0",
         "winston": "^3.17.0",
         "winston-daily-rotate-file": "^5.0.0"

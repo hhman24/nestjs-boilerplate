@@ -24,7 +24,7 @@ export class UserController {
     @Get(":id")
     @HttpCode(HttpStatus.OK)
     @ApiOkResponseCustom(ResponseTypeDto, UserResponseDto)
-    async getUser(@UUIDParam("id") userId: Uuid): Promise<ResponseTypeDto> {
+    async getUser(@UUIDParam("id") userId: string): Promise<ResponseTypeDto> {
         const user = await this.userService.getUser(userId);
 
         return {

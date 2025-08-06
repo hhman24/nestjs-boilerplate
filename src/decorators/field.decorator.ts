@@ -1,6 +1,7 @@
 import { IBooleanFieldOptions, IClassFieldOptions, IEnumFieldOptions, IFieldOptions, INumberFieldOptions, IStringFieldOptions } from "@common";
 import { applyDecorators } from "@nestjs/common";
 import { ApiProperty, type ApiPropertyOptions } from "@nestjs/swagger";
+import { Constructor } from "@types";
 import { Expose, Type } from "class-transformer";
 import {
     IsBoolean,
@@ -20,7 +21,6 @@ import {
     NotEquals,
     ValidateNested
 } from "class-validator";
-import { Constructor } from "src/extensions";
 import { ApiEnumProperty, ApiUUIDProperty } from "./swagger-property.decorator";
 import { LinkCleanupTransform, ToArray, ToBoolean, ToLowerCase, ToUpperCase, Trim } from "./transfrom.decorator";
 import { IsNullable, IsUndefinable } from "./validator.decorator";

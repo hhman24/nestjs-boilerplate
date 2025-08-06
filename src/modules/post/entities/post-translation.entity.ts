@@ -6,10 +6,10 @@ import { PostEntity } from "./post.entity";
 @Entity({ name: "post_translations" })
 export class PostTranslationEntity extends AbstractEntity {
     @PrimaryGeneratedColumn("uuid")
-    id!: Uuid;
+    id!: string;
 
     @Column({ type: "uuid" })
-    postId!: Uuid;
+    postId!: string;
 
     @Column({ type: "enum", enum: LanguageCodeEnum })
     languageCode!: LanguageCodeEnum;

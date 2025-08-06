@@ -34,7 +34,7 @@
             "@configs": ["src/configs"],
             "@decorators": ["src/decorators"],
             "@repositories": ["src/repositories"],
-            "@extensions": ["src/extensions"]
+            "@types": ["src/types"]
         }
     },
     "include": [

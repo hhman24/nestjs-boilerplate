@@ -4,7 +4,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 @Entity({ name: "products" })
 export class ProductEntity extends AbstractEntity {
     @PrimaryGeneratedColumn("uuid")
-    id: Uuid;
+    id: string;
 
     @Column({ type: "decimal", precision: 10, scale: 4 })
     price: number;

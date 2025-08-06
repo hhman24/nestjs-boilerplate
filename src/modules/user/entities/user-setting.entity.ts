@@ -2,7 +2,7 @@ import { AbstractEntity } from "src/common/bases";
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn, Relation } from "typeorm";
 import { UserEntity } from "./user.entity";
 
-@Entity({ name: "user_setting" })
+@Entity({ name: "user_settings" })
 export class UserSettingEntity extends AbstractEntity {
     @Column({ default: false })
     isEmailVerified?: boolean;

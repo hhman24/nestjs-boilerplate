@@ -6,10 +6,10 @@ import { PostTranslationEntity } from "./post-translation.entity";
 @Entity({ name: "posts" })
 export class PostEntity extends AbstractEntity {
     @PrimaryGeneratedColumn("uuid")
-    id!: Uuid;
+    id!: string;
 
     @Column({ type: "uuid" })
-    userId!: Uuid;
+    userId!: string;
 
     @ManyToOne(() => UserEntity, (userEntity) => userEntity.posts, {
         onDelete: "CASCADE",

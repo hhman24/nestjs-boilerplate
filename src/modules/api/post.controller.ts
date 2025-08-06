@@ -15,7 +15,7 @@ export class PostController {
     @HttpCode(HttpStatus.OK)
     @ApiOkResponseCustom(ResponseTypeDto, UserResponseDto)
     async createUser(@Body() dto: CreatePostReqDto): Promise<ResponseTypeDto> {
-        const post = await this.postService.create("4bcecfd9-8726-4adc-9831-e987028327a9" as Uuid, dto);
+        const post = await this.postService.create("4bcecfd9-8726-4adc-9831-e987028327a9", dto);
 
         return {
             data: post

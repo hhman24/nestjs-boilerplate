@@ -29,7 +29,7 @@ export class UserService implements IUserService {
         return user;
     }
 
-    async createUserSetting(userId: Uuid, dto: CreateUserSettingDto) {
+    async createUserSetting(userId: string, dto: CreateUserSettingDto) {
         await this.userSettingRepository.create({ userId, ...dto });
     }
 }

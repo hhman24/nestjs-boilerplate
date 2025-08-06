@@ -1,4 +1,4 @@
-import { Constructor } from "@extensions";
+import { Constructor } from "@types";
 import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from "typeorm";
 
 /**

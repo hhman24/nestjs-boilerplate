@@ -7,7 +7,7 @@ import { UserSettingEntity } from "./user-setting.entity";
 @Entity({ name: "users" })
 export class UserEntity extends AbstractEntity {
     @PrimaryGeneratedColumn("uuid")
-    id!: Uuid;
+    id!: string;
 
     @Column({ nullable: true, type: "varchar" })
     firstName!: string | null;
@@ -15,7 +15,7 @@ export class UserEntity extends AbstractEntity {
     @Column({ nullable: true, type: "varchar" })
     lastName!: string | null;
 
-    @Column({ unique: true, nullable: true, type: "varchar" })
+    @Column({ unique: true, nullable: false, type: "varchar" })
     email!: string | null;
 
     @Column({ type: "enum", enum: RoleTypeEnum, default: RoleTypeEnum.USER })
