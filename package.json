@@ -30,7 +30,7 @@
         "migration:show": "npm run typeorm migration:show",
         "migration:create": "npm run typeorm migration:create",
         "schema:generate": "npm run typeorm migration:generate --pretty",
-        "seed:create": "ts-node -r tsconfig-paths/register -r dotenv/config ./node_modules/typeorm-extension/bin/cli.cjs seed:create",
+        "seed:create": "ts-node -r tsconfig-paths/register -r dotenv/config ./node_modules/typeorm-extension/bin/cli.cjs seed:create --name",
         "seed:run": "ts-node -r tsconfig-paths/register -r dotenv/config ./node_modules/typeorm-extension/bin/cli.cjs seed:run"
     },
     "dependencies": {
