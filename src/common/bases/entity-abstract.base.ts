@@ -20,9 +20,10 @@ export abstract class AbstractEntity {
     updatedAt!: Date;
 
     @DeleteDateColumn({
-        type: "timestamp"
+        type: "timestamp",
+        nullable: true
     })
-    deletedAt!: Date;
+    deletedAt!: Date | null;
 
     toDto<Dto, IDtoOptions>(dtoClass: Constructor<Dto, [this, IDtoOptions?]>, options?: IDtoOptions): Dto {
         if (!this) {

@@ -1,5 +1,6 @@
+import { OrderItemEntity } from "@modules/order/entities";
 import { AbstractEntity } from "src/common/bases";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: "products" })
 export class ProductEntity extends AbstractEntity {
@@ -14,4 +15,7 @@ export class ProductEntity extends AbstractEntity {
 
     @Column({ type: "longtext" })
     description: string;
+
+    @OneToMany(() => OrderItemEntity, (orderItem) => orderItem.productInfo)
+    orderItems: OrderItemEntity[];
 }

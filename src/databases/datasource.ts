@@ -14,8 +14,8 @@ export const dataSource = new DataSource({
     password: process.env.MY_SQL_PASSWORD,
     database: process.env.MY_SQL_DB_NAME,
     namingStrategy: new SnakeNamingStrategy(),
-    entities: [path.resolve(__dirname, "../modules/**/*.entity{.ts,.js}"), path.resolve(__dirname, "../src/modules/**/*.view-entity{.ts,.js}")],
-    migrations: [path.resolve(__dirname, "./migrations/*{.ts,.js}")],
+    entities: ["src/modules/**/*.entity{.ts,.js}", __dirname + "src/modules/**/*.view-entity{.ts,.js}"],
+    migrations: ["src/databases/migrations/**/*{.ts,.js}"],
     poolSize: process.env.DATABASE_MAX_CONNECTIONS ? parseInt(process.env.DATABASE_MAX_CONNECTIONS, 10) : 100,
     ssl:
         process.env.DATABASE_SSL_ENABLED === "true"
@@ -26,7 +26,7 @@ export const dataSource = new DataSource({
                   cert: process.env.DATABASE_CERT ?? undefined
               }
             : undefined,
-    seeds: [path.resolve(__dirname, "./seeds/**/*{.ts,.js}")],
+    seeds: ["src/databases/seeds/**/*{.ts,.js}"],
     seedTracking: true,
-    factories: [path.resolve(__dirname, "./factories/**/*{.ts,.js}")]
+    factories: ["src/databases/factories/**/*{.ts,.js}"]
 } as DataSourceOptions & SeederOptions);

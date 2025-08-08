@@ -31,10 +31,7 @@ export class UserEntity extends AbstractEntity {
     avatar!: string | null;
 
     // define relation with user_setting table
-    @OneToOne(() => UserSettingEntity, (userSetting) => userSetting.user, {
-        cascade: true,
-        eager: false
-    })
+    @OneToOne(() => UserSettingEntity, (userSetting) => userSetting.user)
     setting?: UserSettingEntity;
 
     @OneToMany(() => PostEntity, (postEntity) => postEntity.user)
