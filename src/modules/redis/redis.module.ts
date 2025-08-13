@@ -1,7 +1,6 @@
 import { DynamicModule, Module, Provider } from "@nestjs/common";
 import Redis from "ioredis";
-import { REDIS_SERVICE_KEY } from "./intefaces";
-import { RedisAsyncModuleOptions } from "./intefaces/redis-type.interface";
+import { REDIS_CLIENT_KEY, REDIS_SERVICE_KEY, RedisAsyncModuleOptions } from "./intefaces";
 
 @Module({})
 export class RedisModule {
