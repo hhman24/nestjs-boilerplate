@@ -23,4 +23,12 @@ export class RedisService implements IRedisService {
         const res = await this.redisClient.del(key);
         return res == 1;
     }
+
+    async addKeyToSet(setKey: string, key: string): Promise<void> {
+        await this.redisClient.sadd(setKey, key);
+    }
+
+    async getKeysFromSet(setKey: string): Promise<string[]> {
+        return this.redisClient.smembers(setKey);
+    }
 }
